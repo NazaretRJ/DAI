@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>DAI, Persistencia: Bases de Datos</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>Persistencia: Bases de Datos</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+<section>
+<h2>Opciones para la Persistencia de Datos</h2>
+
+<ul>
+<li>Sistema de archivos</li>
+<li>Persistencia de datos básica</li>
+<li>Archivos indexados</li>
+<li>Bases de datos relacionales (SQL)</li>
+<li>Bases de datos NO-SQL</li>
+<li>Motores de búsqueda</li>
+</ul>
+</section>
+
+<section>
+<h2>Serialización de datos</h2>
+Con el módulo <strong>pickle</strong>, guardamos un objeto en el discohttp://docs.mongoengine.org/guide/
+
+<br /><br/>
+<pre class="prettyprint" style="font-size:80%;border-style:none;">
+import pickle
+D = {'a':1, 'b':2}  # o cualquier estructura de datos
+
+with open('d.dat', 'wb') as f:
+	pickle.dump(D, f)
+
+with open('d.dat', 'rb') as f
+	D = pickle.load(f)
+
+print(D['a'])
+</pre>
+
+<footer class="der">
+<a href="http://docs.python.org/3.3/library/pickle.html" >
+pickle — Python object serialization</a>
+</footer>
+</section>
+
+<section>
+<h2>Archivos indexados tipo <code>dbm</code></h2>
+Con <strong>dbm</strong> se accede bases de datos
+tipo <code>Berkely DB</code> como si estuvieran en memoria
+
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+
+import dbm
+
+db = dbm.open('datos.dat', 'c')
+
+# Insert (en disco)
+db['237483J'] = 'Pepito Pérez|c/ Pedro Antonio|10|7º B'
+
+# Select (desde el disco)
+datos = db['237483J'].split('|')
+
+db.close()
+</pre>
+
+<footer class="der">
+<a href="http://docs.python.org/3.3/library/dbm.html" >
+dbm — Interfaces to Unix “databases”</a>
+</footer>
+</section>
+
+<section>
+<h2>Persistencia de objetos &nbsp;<strong><code>shelve</code></strong></h2>
+<strong>shelve</strong> &nbsp;añade una capa de software a
+<code>dbm</code> para serializar los objetos
+
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+
+import shelve
+
+db = shelve.open('datos.dat')
+
+# Insert (en disco)
+db['237483J'] = {'nombre': 'Pepito Pérez',
+                 'dir':'c/ Pedro Antonio, 10, 7º B'}
+
+# Select (desde el disco)
+datos = db['237483J']
+
+db.close() # flush
+</pre>
+
+<footer class="der">
+<a href="https://docs.python.org/3/library/shelve.html" >
+shelve - Python object persistence</a>
+</footer>
+</section>
+
+
+<!--
+<section>
+<h2>Librería &nbsp; <a href="http://www.sqlalchemy.org/">ORM</a></h2>
+<br>
+<p>
+<strong>O</strong>bjectc <strong>R</strong>elational <strong>M</strong>apper, y manejo de bases
+de
+</p>
+
+<p>
+Tiene dos partes:
+<ul style="margin-left:20%">
+<li><a href="http://docs.sqlalchemy.org/en/rel_0_8/core/tutorial.html">Core</a></li>
+<li><a href="http://docs.sqlalchemy.org/en/rel_0_8/orm/tutorial.html">ORM</a></li>
+</ul>
+</p>
+</section>
+ -->
+<section>
+<h2>Librerías &nbsp; <strong>O</strong>bject <strong>R</strong>elational <strong>M</strong>apping</h2>
+
+Una capa de software para aislar la BD SQL del resto del código
+
+<br/><br/>
+<pre class="prettyprint" style="font-size:75%;width:80%;border-style:none;">
+# SQL (depende de la BD: sqlite, Progress, mysql, etc)
+result = connection.execute("select username from users")
+for row in result:
+    print("username: %s" % row['username'])
+
+# ORM (siempre igual)
+result = connection.query(users).all()
+for user in result:
+   print("username: %s" % user.username)
+</pre>
+<footer class="der">
+<a href="https://en.wikipedia.org/wiki/Object-relational_mapping" >
+Object-relational mapping</a>, &nbsp;
+<a href="https://www.pythoncentral.io/introductory-tutorial-python-sqlalchemy/">
+	SqlAlchemy</a>
+</footer>
+</section>
+
+<!--
+<section>
+<h2>Librería &nbsp; <a href="http://www.sqlalchemy.org/">SQLAlchemy</a> &nbsp; ORM</h2>
+<pre class="prettyprint" style="font-size:65%;width:80%;height:420px;overflow:scroll">
+# table_def.py
+from sqlalchemy import create_engine, ForeignKey
+from sqlalchemy import Column, Date, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, backref
+
+engine = create_engine('sqlite:///mymusic.db', echo=True)
+Base = declarative_base()
+
+##########################################
+class Artist(Base):
+    """Tabla artist"""
+    __tablename__ = "artists"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
+    #------------------------------------------------------------
+    def __init__(self, name):
+        """"""
+        self.name = name
+
+##########################################
+class Album(Base):
+    """Tabla albums"""
+    __tablename__ = "albums"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    release_date = Column(Date)
+    publisher = Column(String)
+    media_type = Column(String)
+
+    artist_id = Column(Integer, ForeignKey("artists.id"))
+    artist = relationship("Artist", backref=backref("albums", order_by=id))
+
+    #----------------------------------------------------------------------
+    def __init__(self, title, release_date, publisher, media_type):
+        """"""
+        self.title = title
+        self.release_date = release_date
+        self.publisher = publisher
+        self.media_type = media_type
+
+# create tables
+Base.metadata.create_all(engine)
+</pre>
+<footer class="der">
+<a href="http://www.blog.pythonlibrary.org/2012/07/01/a-simple-sqlalchemy-0-7-0-8-tutorial/" >
+A Simple SqlAlchemy 0.7 / 0.8 Tutorial</a>
+</footer>
+</section> -->
+
+<!-- <section>
+<h2>Librería &nbsp; <a href="http://www.sqlalchemy.org/">SQLAlchemy</a> &nbsp; ORM</h2>
+<pre class="prettyprint" style="font-size:65%;width:80%;height:420px;overflow:scroll">
+#-------------------------------------------
+# INSERT / ADD DATA
+#-------------------------------------------
+
+import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from table_def import Album, Artist
+
+engine = create_engine('sqlite:///mymusic.db', echo=True)
+
+# create a Session
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Create an artist
+new_artist = Artist("Newsboys")
+new_artist.albums = [Album("Read All About It",
+                             datetime.date(1988,12,01),
+                             "Refuge", "CD")]
+
+# add more albums
+more_albums = [Album("Hell Is for Wimps",
+                     datetime.date(1990,07,31),
+                     "Star Song", "CD"),
+               Album("Love Liberty Disco",
+                     datetime.date(1999,11,16),
+                     "Sparrow", "CD"),
+               Album("Thrive",
+                     datetime.date(2002,03,26),
+                     "Sparrow", "CD")]
+new_artist.albums.extend(more_albums)
+
+# Add the record to the session object
+session.add(new_artist)
+# commit the record the database
+session.commit()
+
+# Add several artists
+session.add_all([
+    Artist("MXPX"),
+    Artist("Kutless"),
+    Artist("Thousand Foot Krutch")
+    ])
+session.commit()
+
+#-------------------------------------------
+# MODIFY
+#-------------------------------------------
+
+# querying for a record in the Artist table
+res = session.query(Artist).filter(Artist.name=="Kutless").first()
+print res.name
+
+# changing the name
+res.name = "Beach Boys"
+session.commit()
+
+# editing Album data
+artist, album = session.query(Artist, Album).filter(Artist.id==Album.artist_id).filter(Album.title=="Thrive").first()
+album.title = "Step Up to the Microphone"
+session.commit()
+
+#-------------------------------------------
+# DELETE
+#-------------------------------------------
+
+res = session.query(Artist).filter(Artist.name=="MXPX").first()
+
+session.delete(res)
+session.commit()
+
+
+#-------------------------------------------
+# QUERIES
+#-------------------------------------------
+
+# how to do a SELECT * (i.e. all)
+res = session.query(Artist).all()
+for artist in res:
+    print artist.name
+
+# how to SELECT the first result
+res = session.query(Artist).filter(Artist.name=="Newsboys").first()
+
+# how to sort the results (ORDER_BY)
+res = session.query(Album).order_by(Album.title).all()
+for album in res:
+    print album.title
+
+# how to do a JOINed query
+qry = session.query(Artist, Album)
+qry = qry.filter(Artist.id==Album.artist_id)
+artist, album = qry.filter(Album.title=="Thrive").first()
+print
+
+# how to use LIKE in a query
+res = session.query(Album).filter(Album.publisher.like("S%a%")).all()
+for item in res:
+    print item.publisher
+</pre>
+<footer class="der">
+<a href="http://www.blog.pythonlibrary.org/2012/07/01/a-simple-sqlalchemy-0-7-0-8-tutorial/" >
+A Simple SqlAlchemy 0.7 / 0.8 Tutorial</a>
+</footer>
+</section> -->
+
+
+<section>
+<h2>Bases de datos &nbsp; <a href="http://en.wikipedia.org/wiki/NoSQL">No-SQL</a></h2>
+
+Son base de datos para permitir 'BIG DATA', tipos de datos
+complejos, mas índices, distintas maneras de consulta, etc:<br><br>
+
+<table border="0" style="font-size:65%">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead valign="bottom">
+<tr>
+<th><strong>SQL</strong></th>
+<th><strong>No-SQL</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr>
+<td><tt>Tablas</tt></td>
+<td><tt>Hashes, listas</tt></td>
+</tr>
+<tr>
+<td><tt>Datos estructurados, consistencia</tt></td>
+<td><tt>Datos menos estructurados, dinamicidad</tt></td>
+</tr>
+<tr>
+<td><tt>Escalabilidad vertical</tt></td>
+<td><tt>Escalabilidad horizontal</tt></td>
+</tr>
+<tr>
+<td><tt>Contabilidad, Facturación, Almacen, Personal, Tiendas on-line, etc</tt></td>
+<td><tt>Documentos, Foros, Redes Sociales, Datos Distribuidos, etc</tt></td>
+</tr>
+</tbody>
+</table>
+
+
+<footer class="der">
+<a href="http://www.mongodb.com/nosql" >
+What is NoSQL?</a>
+</footer>
+</section>
+
+<section>
+<h2>¿Por qué &nbsp;<strong>NO-SQL</strong>?</h2>
+
+<br>
+<p>
+<ul>
+<li><a href="http://www.youtube.com/watch?v=PlaJsseTgk4">What is Big Data?</a><br><br></li>
+<li><a href="http://www.youtube.com/watch?v=liQzIsFnCr0">What is MongoDB?</a></li>
+</ul>
+</p>
+
+
+</section>
+
+
+<section>
+<h2>Base de datos &nbsp; <a href="http://docs.mongodb.org/">mongoDB</a></h2>
+
+<p>
+<br>
+Es una base de datos, orientada a documentos estilo <a href="https://en.wikipedia.org/wiki/JSON">JSON</a>,
+que incluye información del tipo de dato
+
+<br><br>
+En <strong>mongodb</strong>, una
+<a href="http://docs.mongodb.org/manual/reference/glossary/#term-database">base de datos </a>
+está formada por<br>
+<a href="http://docs.mongodb.org/manual/reference/glossary/#term-collection">colecciones</a>
+<span style="color:gray;font-size:70%">&nbsp;(equivalentes a tablas en SQL)</span>, <br>
+que son un conjunto de <a href="http://docs.mongodb.org/manual/core/document/">documentos</a>
+<span style="color:gray;font-size:70%">&nbsp;(equivalentes a filas)</span>
+</p>
+
+<footer class="der">
+</footer>
+</section>
+
+<section>
+
+<h2>Base de datos &nbsp; <a href="http://docs.mongodb.org/">mongoDB</a></h2>
+
+<a href="http://docs.mongodb.org/manual/core/crud-introduction/">MongoDB CRUD Introduction</a>
+<br>
+<ul>
+<li><a href="http://docs.mongodb.org/manual/core/read-operations/">Read Operations</a></li>
+<li><a href="https://docs.mongodb.com/manual/tutorial/insert-documents/">Insert Operations</a></li>
+<li><a href="https://docs.mongodb.com/manual/tutorial/update-documents/">Update Operations</a></li>
+<li><a href="https://docs.mongodb.com/manual/tutorial/remove-documents/">Delete Operations</a></li>
+</ul>
+
+<footer class="der">
+	<a href="https://docs.mongodb.com/getting-started/shell/" >
+	     Getting Started with MongoDB (MongoDB Shell Edition)</a>, &nbsp;
+<a href="https://www.tutorialspoint.com/mongodb/" >
+MongoDB Tutorial</a>
+</footer>
+</section>
+
+<section>
+<h2>Librería &nbsp; <a href="http://docs.mongodb.org/ecosystem/drivers/python/">PyMongo</a></h2>
+
+<pre class="prettyprint" style="font-size:65%;height:380px;overflow:scroll;">
+from pymongo import MongoClient
+client = MongoClient('mongodb://localhost:27017/')
+
+# base de datos
+db = client['test-database']
+
+# documento
+import datetime
+post = {"author": "Mike",  # en SQL serian 2 tablas
+        "text": "My first blog post!",
+        "tags": ["mongodb", "python", "pymongo"],
+        "date": datetime.datetime.utcnow()}
+
+# colección
+posts = db.posts
+
+# insert_one()
+post_id = posts.insert_one(post).inserted_id
+
+# Query
+query = posts.find_one({"_id": post_id})
+query = posts.find_one({"author": "Mike"})
+
+# Insertar otros datos (distintos)
+new_posts = [{"author": "Mike",
+              "text": "Another post!",
+              "tags": ["bulk", "insert"],
+              "date": datetime.datetime(2009, 11, 12, 11, 14)},
+             {"author": "Eliot",
+              "title": "MongoDB is fun",
+              "text": "and pretty easy too!",
+              "date": datetime.datetime(2009, 11, 10, 10, 45)}]
+posts.insert_many(new_posts)
+
+
+# Find devuelve un cursor iterable
+for post in posts.find():
+   print(post['text'])
+
+# Otras querys
+d = datetime.datetime(2009, 11, 12, 12)
+posts.find({"date": {"$lt": d}}).sort("author")
+
+# Creando índices para mayor rapidez (y tamaño de la BD)
+# ------------------------------------------------------
+from pymongo import ASCENDING, DESCENDING
+
+posts.create_index([("date", DESCENDING),
+                    ("author", ASCENDING)
+                  ])
+</pre>
+<a href="http://api.mongodb.org/python/current/examples/index.html">Más Ejemplos</a>
+
+<footer class="der">
+<a href="http://api.mongodb.org/python/current/tutorial.html" >
+Tutorial</a>,  &nbsp;
+<a href="https://www.w3schools.com/python/python_mongodb_getstarted.asp">
+y otro tutorial</a>
+</footer>
+</section>
+
+<section>
+<h2>ODM <a href="http://mongoengine.org/">Mongoengine</a></h2>
+
+Con sintaxis similar a <a href="https://tutorial.djangogirls.org/es/django_orm/">Django ORM</a>
+
+<pre class="prettyprint" style="font-size:65%;height:380px;overflow:scroll;">
+# Mongoengine
+# <mark>Object Document Model</mark>
+
+import datetime
+from mongoengine import *
+
+connect('mongoengine_test')
+
+class Post(Document):
+    title     = StringField(required=True, max_length=200)
+    content   = StringField(required=True)
+    author    = StringField(required=True, max_length=50)
+    tags      = ListField(StringField(max_length=30))
+    published = DateTimeField(default=datetime.datetime.now)
+
+post_1 = Post(title='Sample Post',
+              content='Some engaging content',
+              author='Scott',
+              tags=['a', 'b']
+             )
+post_1.save()
+
+post_1.title = 'A Better Post Title'
+post_1.save()
+
+for post in Post.objects:http://docs.mongoengine.org/guide/
+    print(post.title)
+
+for post in Post.objects(tags='mongodb'):
+    print(post.title)
+
+post_1.delete()
+</code></pre>
+</pre>
+
+<footer class="der">
+<a href="http://docs.mongoengine.org/tutorial.html" >
+Tutorial</a>,  &nbsp;
+<a href="http://docs.mongoengine.org/guide/">
+User Guide</a>
+</footer>
+
+
+
+</section>
+
+<section>
+<h2>Otras BD NO-SQL</h2>
+
+<br><br>
+
+<ul>
+<li><a href="http://redis.io/" >Redis</a>
+   <span style="color:gray;font-size:70%">&nbsp;(para cache en memoria)</span><br><br>
+</li>
+<li><a href="https://www.elastic.co/" >Elasticsearch</a>
+   <span style="color:gray;font-size:70%">&nbsp;(para motores de búsqueda)</span><br><br>
+</li>
+<li><a href="http://hadoop.apache.org/" >Hadoop</a>
+   <span style="color:gray;font-size:70%">&nbsp;(big data)</span><br><br>
+</li>
+</ul>
+
+</section>
+
+
+<!--
+<section>
+<h2>Librería &nbsp; <a href="http://xapian.org/">Xapian</a></h2>
+<br>
+<p>
+Es un motor de búsqueda para bases de datos documentales, para
+indexar texto y hacer consultas estilo <a href="http://google.es">Google</a>
+</p>
+<p>
+Una <a href="http://getting-started-with-xapian.readthedocs.org/en/latest/concepts/indexing/databases.html">base de datos</a>,
+está formada por <a href="http://getting-started-with-xapian.readthedocs.org/en/latest/concepts/indexing/documents.html">documentos</a>,
+que están indexados por <a href="http://getting-started-with-xapian.readthedocs.org/en/latest/concepts/indexing/terms.html">términos</a>
+</p>
+
+<footer class="der">
+<a href="http://xapian.org/docs/intro_ir.html" >
+Documents and terms</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Librería &nbsp; <a href="http://xapian.org/">Xapian</a></h2>
+<pre class="prettyprint" style="font-size:65%;width:80%;height:440px;overflow:scroll">
+#
+# INDEXADOR
+#
+
+import xapian
+import requests
+from html2text import html2text
+
+paginas = {}
+textos  = {}
+lista_urls = ('http://www.ugr.es/', 'http://etsiit.ugr.es/')
+
+for url in lista_urls:
+	pag = requests.get (url)
+	paginas[url] = pag.text  # Página en html
+	textos[url]  = html2text (pag.text)     # Texto de la página
+
+
+# Abrir si existe o crear la BD
+paginas_db = xapian.WritableDatabase ('test.db', xapian.DB_CREATE_OR_OPEN)
+
+indexador = xapian.TermGenerator()
+indexador.set_stemmer (xapian.Stem("spanish"))
+
+for url in paginas:
+	documento = xapian.Document()      # preparo los datos
+	documento.set_data (paginas[url])   # añado la página
+	documento.add_value (0, url)	          # añado el url en el slot 0
+	indexador.set_document (documento)    # indexo
+	indexador.index_text (textos[url])         # con el texto de la página
+	paginas_db.add_document (documento)        # inserto
+
+paginas_db.flush()
+</pre>
+</section>
+
+<section>
+<h2>Librería &nbsp; <a href="http://xapian.org/">Xapian</a></h2>
+<pre class="prettyprint" style="font-size:65%;width:80%;height:420px;overflow:scroll;">
+#
+# CONSULTAS
+#
+
+import xapian
+
+# búsquedas estilo google
+busqueda = 'taller ranking'
+busqueda = '+taller +ranking'
+busqueda = '+taller -ranking'
+busqueda = 'taller NEAR proceso'
+busqueda = '"taller formativo"'
+
+
+# Abrir si existe o crear la BD
+paginas_db = xapian.WritableDatabase ('test.db', xapian.DB_CREATE_OR_OPEN)
+
+queryParser = xapian.QueryParser ()
+queryParser.set_stemmer (xapian.Stem('spanish'))  # No funciona el spanish
+queryParser.set_database (paginas_db)
+
+# Pongo la query
+query = queryParser.parse_query (busqueda)
+
+# interrogo
+enquire = xapian.Enquire (paginas_db)
+enquire.set_query (query)
+
+# Set offset and limite
+offset, limit = 0, paginas_db.get_doccount ()
+matches = enquire.get_mset (offset, limit)
+
+for match in matches:
+	print '==================='
+	print 'rank=%s, documentID=%s' % (match.rank, match.docid)
+	print match.document.get_value (0)  # url
+	print '-------------------'
+	print match.document.get_data ()    # página
+
+</pre>
+<footer class="der">
+<a href="http://invisibleroads.com/tutorials/xapian-search-pylons.html" >
+Build a document search engine using Xapian</a>
+</footer>
+</section>
+-->
+
+<!--
+<section>
+<h2>Custom Search Engine de Google</h2>
+Otra opción es CSE de Google, que es gratuita dándose de alta <br><br>
+<table>
+<tr>
+<td><img src="http://lsi.ugr.es/dai/imas/cse1.png"  height="50%" width="100%"></td>
+<td>&nbsp;</td>
+<td><img src="http://lsi.ugr.es/dai/imas/cse2.png"  height="50%" width="100%"></td>
+</tr>
+</table>
+
+
+</section>
+
+<section>
+<br><br><br>
+El código se inserta en la página:
+
+<div style="width:40%;margin-left:50%;margin-top:-5%">
+
+<script>
+  (function() {
+    var cx = '018122563406084402927:r4gijtoqw_e';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+</div>
+
+<br><br><br>
+O también se puede usar una url pública: &nbsp; &nbsp;
+<a href="https://www.google.com/cse/publicurl?cx=018122563406084402927:r4gijtoqw_e">Buscar en ugr.es</a>
+
+<footer class="der">
+<a href="https://www.google.com/cse/" >
+Motor de búsqueda personalizado de Goolge</a>
+</footer>
+
+</section>
+ -->
+
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 680px;
+       line-height:1.6em;
+       margin: auto auto auto auto;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    //list-style-type: none;
+    padding: 9px;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>

@@ -1,0 +1,341 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>DAI - React</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/tomorrow-night.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+
+		section {
+			 width: 120% !important;
+			 margin-left: -2% !important;
+		}
+
+	 	  html.img-center div.slide-background.present {
+			 background-position: center;
+			 background-size: 100% 100%;
+			 opacity: 0.1;
+			 z-index: -1;
+		  }
+
+		  strong {
+  			color: turquoise;
+  		  }
+
+		  strong.n {
+  			color:orange;
+  		}
+
+  	    th {
+  			color:white;
+  			background-color: palevioletred;
+  		 }
+
+		 p {
+			 font-size: 90% !important;
+			 text-align: left;
+		 }
+
+		 ul {
+			 font-size: 90% !important;
+			 margin-left: -40% !important;
+			 text-align: left !important;
+		 }
+		 li {
+            padding:0 0 16px 0 !important;
+        }
+
+		  footer {
+  		   position: absolute !important;
+             bottom: -2em !important;
+             right: 2em !important;
+             font-size: 0.8em !important;
+  		}
+
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background="images/react-logo.svg" data-state="img-center">
+					<h2 style="color:tomato">Single Page Applications</h2>
+					<br>
+					<h3>DAI-18</h3>
+
+						<!-- <small><a href="http://www.ugr.es/~jmguirao">José Ma. Guirao</a> / <a href="mailto://jmguirao@ugr.es">jmguirao@ugr.es</a></small> -->
+					<footer>
+					en el <a href="https://swad.ugr.es/?CrsCod=7257">swad</a>
+					</footer>
+				</section>
+
+
+				<section>
+					<h3>Sigle Page Applications</h3>
+					<br>
+					<p>
+						Son aplicaciones web similares a las de los móviles
+					</p>
+					<br>
+					<p>
+						En la primera llamada a al servidor, se carga toda la aplicación
+						<br />(html, css, js)
+					</p>
+					<br>
+					<p>
+						Y después la interación con el servidor es a través de &nbsp; <strong>AJAX</strong>
+					</p>
+				</section>
+
+				<section>
+						<img src="images/IC690875.png" style="margin-top:-3%" width="55%"/>
+
+				</section>
+
+				<section>
+					<h3>M &nbsp; V &nbsp; C </h3>
+					<br />
+					<p>
+						En estas aplicaciones la &nbsp;<strong>Vista</strong> y el
+						&nbsp;<strong>Controlador</strong> pasan a estar en el navegador,
+						(con javascript)
+					</p>
+					<br />
+					<p>
+						que se comunica &nbsp;<b style="color:olive">REST</b> &nbsp;con
+					</p>
+					<br />
+					<p>
+						el servidor, que solo se ocupa del &nbsp; <strong>Modelo</strong>, que interactua con
+						<br /> la &nbsp; <b style="color:olive">Base de Datos</b>
+					</p>
+				</section>
+
+
+				<section>
+					<img src="images/capture.jpg" style="margin-top:-3%" width="110%"/>
+				</section>
+
+				<section>
+<a href="https://medium.com/@TechMagic/reactjs-vs-angular5-vs-vue-js-what-to-choose-in-2018-b91e028fa91d">
+					<h3>Angular &nbsp; vs  &nbsp; Vue  &nbsp; vs  &nbsp; React</h3>
+
+					<br />
+					<img src="images/compara.jpeg" style="margin-top:-3%" width="90%"/>
+				</a>
+					<footer>
+
+					<a href="https://codearmy.co/comparaci%C3%B3n-react-contra-angular-2402f761b14e">
+						Comparación React contra Angular</a>
+					</footer>
+				</section>
+
+				<section>
+					<h3>React</h3>
+					<p>
+						Es una libería para hacer componentes para este tipo de aplicaciones,
+						(básicamente la <strong>V</strong>ista) que se complementa con:
+					</p>
+					<br />
+					<ul>
+						<li>
+								<a href="https://knowbody.github.io/react-router-docs/">React Router</a>
+						</li>
+						<li>
+								<a href="https://redux.js.org/">React Redux</a>
+						</li>
+					</ul>
+					<br />
+					<p>
+						para el <strong>Controlador</strong>
+					</p>
+
+					<footer>
+						<a href="https://facebook.github.io/react/">React</a>
+					</footer>
+				</section>
+
+
+
+				<section>
+					<h3>React</h3>
+					<p>
+						Utilza un DOM virtual, que se re-renderiza al cambiar el <code>state</code>
+						o las <code>props</code>
+						<img src="images/virtual_dom_diff.png" width="60%"/>
+						</p>
+					<footer>
+						<a href="https://facebook.github.io/react/">React</a>
+					</footer>
+				</section>
+
+
+
+				<section>
+					<h3>Basada en componentes</h3>
+					<br/>
+					<p>
+					   Son clases de <a href="http://es6-features.org/"> ES6</a> que tienen asociados unas variables <strong>props</strong> (propiedades,
+						para comunicar elementos),
+						y
+					</p>
+					<p>
+						un <strong>state</strong> (variable gloabal del componente)
+					</p>
+
+					<footer>
+						<a href="https://reactjs.org">
+						Components and Props
+					</a>, &nbsp;&nbsp;
+				</a>
+					</footer>
+				</section>
+
+				<section>
+					<h3>JSX</h3>
+					<br>
+					Utilza el leguaje de templates
+					<a href="https://reactjs.org/docs/introducing-jsx.html">JSX</a>
+					<br><br>
+					<footer>
+						<a href="http://buildwithreact.com/tutorial/jsx">Tutorial: JSX</a>
+					</footer>
+				</section>
+
+				<section>
+					<h3>Ciclo de vida</h3>
+					<br />
+					<p> Los componentes tienen asociados métodos que se ejecutan
+						automáticamente cuando cambia el estado
+					</p>
+					<br />
+					<footer>
+						<a href="https://reactjs.org/docs/react-component.html">
+						State and Lifecycle
+					</footer>
+				</section>
+
+				<!-- <section>
+					<h3>El estado no se cambia directamente</h3>
+					<br />
+					<pre><code data-trim class="javascript" style="font-size:80%">
+						// Wrong
+						this.state.comment = 'Hello';
+
+						// Correct
+						this.setState({comment: 'Hello'});
+					</code></pre>
+					<footer>
+						<a href="https://facebook.github.io/react/docs/state-and-lifecycle.html#using-state-correctly">
+							Using State Correctly
+						</a>
+					</footer>
+				</section> -->
+
+				<!-- <section>
+					<h3>El cambio de estado puede ser asincrono</h3>
+					<br />
+					<pre><code data-trim class="javascript" style="font-size:60%">
+						// Wrong
+						this.setState({
+						  counter: this.state.counter + this.props.increment,
+						});
+
+						// Correct, now with a function like argument
+						this.setState((prevState, props) => ({
+  					     counter: prevState.counter + props.increment
+                  }));
+
+						// Correct, without arrow function
+						this.setState(function(prevState, props) {
+							return {
+								counter: prevState.counter + props.increment
+							};
+						});
+					</code></pre>
+					<footer>
+						<a href="https://facebook.github.io/react/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous">
+							State Updates May Be Asynchronous
+						</a>
+					</footer>
+				</section> -->
+
+				<section>
+					<h3>Los datos van hacia abajo</h3>
+					<br />
+					<pre><code data-trim class="html" style="font-size:80%">
+
+						&lt;ComponenteDeArriba&gt;
+
+							&lt;OtroComponente argumento={variable} /&gt;
+
+						&lt;/ComponenteDeArriba&gt;
+					</code></pre>
+					<footer>
+						<a href="https://jurassix.gitbooks.io/dataflow-through-react/content/overview/how-data-flows-through-react.html">
+							The Data Flows Down
+						</a>
+					</footer>
+				</section>
+
+
+				<section>
+					<h3>Redux</h3>
+					<p>
+						Para comunicar hacia arriba, hace falta <strong>Redux</strong>
+					</p>
+						<img src="images/redux-article-3-03.svg" width="50%"/>
+						<p>
+						que introduce el <strong>store</strong> (una variable global para toda la aplicación)
+					</p>
+
+					<footer>
+						<a href="http://redux.js.org/docs/introduction/">Redux</a>
+					</footer>
+				</section>
+
+				<section>
+					<a href="https://www.tutorialspoint.com/reactjs/index.htm">Learn React</a>
+						<br/><br/>
+						<a href="https://www.taniarascia.com/getting-started-with-react/">
+							Getting Started with React – An Overview and Walkthrough</a>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if map_lat %}
+<div id="map"></div>
+
+<script>
+function myMap() {
+  var mapCanvas = document.getElementById("map");
+  var locali = {lat: 37.176851, lng: -3.600937};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7.5,
+    center: locali
+  });
+  var marker = new google.maps.Marker({
+    position: locali,
+    map: map
+  });
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+}
+</script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHaoKpcu0BD2UNRjmDMaEqclwnWITpkdY&callback=initMap">
+</script>
+
+
+{% else %}
+    
+    <h2> No encontrado </h2>
+    
+{% endif %}
+
+
+
+{% endblock %}
+
+
+
+
+
+-------------------------------------
+
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if map_lat %}
+<div id="map"></div>
+
+
+
+
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+  src="https://www.openstreetmap.org/export/embed.html?bbox=-85.01220703125%2C35.90684930677121%2C-68.18115234375001%2C45.460130637921004
+  &amp;layer=mapnik&amp;marker={{lat}}%2C{{lon}}" 
+  style="border: 1px solid black">
+</iframe>
+<br/>
+  <small>
+    <a href="https://www.openstreetmap.org/?mlat=40.855&amp;mlon={{lon}}#map=6/{{lat}}/{{lon}}">Ver mapa más grande
+    </a>
+  </small>
+
+
+{% else %}
+    
+    <h2> No encontrado </h2>
+    
+{% endif %}
+
+
+
+{% endblock %}

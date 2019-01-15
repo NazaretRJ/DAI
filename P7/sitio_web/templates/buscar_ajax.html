@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+
+{% block head_script %}
+<head>
+    <script>
+        var primera_vez = true;
+        var pagina_act = 0;
+        var anterior = false;
+        
+        function carga_datos(pag){
+            var fila,add_fila;
+            //alert(pag);
+            $.ajax({
+                url: '{% url 'getDatos' %}',
+                type : 'GET',
+                data: 'pag='+pag,
+    
+                success: function(data){
+                
+                    data = JSON.parse(data);
+                    //saber número de columnas
+                    //var nColumnas = $("#list_res tr:last th").length;
+                    if(!primera_vez){
+                        /*borramos todas menos la del la cabecera*/
+                        $('table tr:not(:first-child)').remove();
+                    }
+    
+                    for( i = 0; i< data.length;i++){
+                        //meter en tabla
+                        fila="<tr><td>"+data[i]['name']+"</td><td>"+data[i]['location'].coordinates+"</tr>";
+                        add_fila = document.createElement("TR");
+                        add_fila.innerHTML=fila;
+                        document.getElementById("list_res").appendChild(add_fila);
+                        
+                    }
+                    
+                    if(pagina_act > 0)
+                        anterior = true;
+    
+                },
+    
+                error: function(e){
+                    console.log(e);
+                }
+    
+    
+            });
+        }
+        //aparece al cargar la página
+        window.onload = function() {
+            carga_datos(pagina_act);
+            pagina_act ++;
+            primera_vez=false;
+        };
+    
+    </script>
+
+</head>
+{% endblock %}
+
+{% block content %}
+<table name="list_res" id="list_res" class="table">
+    <thead>
+      <tr>
+        <th scope="col">name</th>
+        <th scope="col">location</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+
+</table>
+
+<div class="paginador">
+    
+    {% if pagina_act >= 1 %}
+    <a onclick="carga_datos(pagina_act); pagina_act--;">Atrás</a>
+    {% endif %}
+    
+    <a onclick="carga_datos(pagina_act); pagina_act++;">Siguiente</a>
+    
+
+<div>
+{% endblock %}

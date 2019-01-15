@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>DAI Práctica 7 - jQuery y AJAX</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markup.min.js"></script>
+<style>
+p {
+   font-size: 1em;
+   margin-top: 2em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+	<br />
+	<h2>Diseño de Aplicaciones para Internet (2018-2019)<br />
+ Guión de Prácticas 7: jQuery y AJAX</h2>
+	
+<p>
+En esta práctica usaremos la librería <a href="http://jquery.com/">JQuery</a> para completar nuestra aplicación:
+</p>
+
+<br>
+
+<h4>Cambiar el CSS de la página de manera dinámica</h4>
+
+<p>
+Se pide que usando algunos botones se cambie el aspecto visual de la página modificando de manera dinámica el <a href="http://api.jquery.com/css/">CSS</a> de la página. Por ejemplo (pero no tenemos que limitarnos solo a estos ejemplos):</p>
+
+<ul>
+  <li>Cambiar el tamaño de letra de la página (<span style="font-size:1.5em;">grande</span>, <span style="font-size:1.0em;">normal</span>, <span style="font-size:0.75em;">pequeña</span>, <span style="font-size:0.2em;">absurda</span>...).</li>
+
+  <li>Modificar los colores de nuestra página. Por ejemplo, podríamos crear un modo "nocturno", con colores y/o imágenes de fondo oscuros y colores de letra claros.</li>
+  
+  <li>Con algún botón ocultar y mostrar alternatiamente (mejor si es con una animación) algún elemento de la página como es el menú, alguna imagen...</li> 
+</ul>
+
+<p>&nbsp;</p>
+
+<h4>Crear un páginador (sin AJAX)</h4>
+
+<p>Cuando queremos mostrar muchos resultados se suele utilizar un paginador que "trocea" dichos resultados y los va mostrando poco a poco. Por ejemplo, tras buscar restaurantes en nuestra aplicación podemos hacer que los muestre de 10 en 10 y tenga controles de "página siguiente" y "página anterior" (e incluso enlaces a las páginas intermedias). Algo por el estilo a:<p>
+
+<table class="table" style="width: 50%;margin-left: auto; margin-right: auto;">
+  <tr>
+    <th>Nombre restaurante</th><th>Barrio</th>
+  </tr>
+  
+  <tr><td>Resaturante 11</td><td>Barrio X</td></tr>
+  <tr><td>Resaturante 12</td><td>Barrio Y</td></tr>
+  <tr><td>Resaturante 13</td><td>Barrio Z</td></tr>
+  <tr><td>Resaturante 14</td><td>Barrio J</td></tr>
+  <tr><td>Resaturante 15</td><td>Barrio K</td></tr>
+  <tr><td>Resaturante 16</td><td>Barrio Z</td></tr>
+  <tr><td>Resaturante 17</td><td>Barrio Z</td></tr>
+  <tr><td>Resaturante 18</td><td>Barrio X</td></tr>
+  <tr><td>Resaturante 19</td><td>Barrio Y</td></tr>
+  <tr><td>Resaturante 20</td><td>Barrio Y</td></tr>
+</table>
+
+<p style="text-align: center;"><a href="javascript:;" title="Primera página">&lt;&lt;</a> <a href="javascript:;" title="Página anterior">&lt;</a> <a href="javascript:;">1</a> 2 <a href="javascript:;">3</a> <a href="javascript:;">4</a> <a href="javascript:;" title="Página siguiente">&gt;</a> <a href="javascript:;" title="Última página">&gt;&gt;</a></p>
+
+<p>Se pide crear un páginador de este estilo SIN USAR NINGUNA BIBLIOTECA NI FUNCIÓN ESPECÍFICA para estos menesteres (y por ahora sin AJAX)</p>
+
+<p>&nbsp;</p>
+
+<h4>Adaptar el paginador para que use AJAX</h4>
+
+<p>Recargar toda la página para "simplemente" cambiar el contenido de unas cuantas celdas de la tabla de nuestro paginador es ineficiente (se tiene que generar la página completa y mandar toda esa información del servidor al cliente. Mediante <a href="https://es.wikipedia.org/wiki/AJAX">AJAX</a> se puede mejorar la carga de los datos del paginador para que solo se mande del cliente al servidor la información pertinente e los restaurantes de cada página (sin recargar el resto de elementos como cabeceras, menús, etc). jQuery cuenta con <a href="http://api.jquery.com/jquery.ajax/">funciones para facilitarnos la vida con AJAX</a>.</p>
+
+<p>De manera simplificada podemos decir que en la parte del cliente (la plantilla) hacemos la petición AJAX y mostramos la respuesta:</p>
+
+<pre>
+
+$(function(){  # de  jquery, se ejecuta cuando se carga la página	 
+     $.ajax({
+		url: "{% url 'reclama_datos' %}",
+		type: 'get',                        
+		success: function(datos) {
+			Visualiza_datos (datos);  
+		},
+		failure: function(datos) { 
+			alert('esto no vá');
+		}
+	});
+	
+	function Visualiza_datos (datos) {
+		...  # Aqui quitamos los datos antiguos de la página y ponemos los nuevos
+	};
+});
+</pre>
+
+
+
+<p>Y en el servidor mandamos los datos con la función 
+<code><a href="https://docs.djangoproject.com/en/1.9/ref/request-response/#jsonresponse-objects">JsonResponse</a></code>
+con el parámetro <code>safe=False</code>:</p>
+
+<pre>
+from django.http import JsonResponse
+
+def reclama_datos (request):
+
+	...
+	
+	return JsonResponse(datos, safe=False)
+</pre>
+
+
+<p>En este apartado se pide modificar el paginador del punto anterior para usar AJAX y no recargar la página completa en cada petición al paginador.</p>
+
+</div>
+<br /><br />
+
+</body>
+</html>

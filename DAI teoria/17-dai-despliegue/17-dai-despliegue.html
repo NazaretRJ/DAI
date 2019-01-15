@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>DAI, Despliegue</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>Despliegue</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+
+
+
+<section>
+<h2>Despliegue</h2>
+
+<br>
+Para poner en producción una aplicación web, necesitaremos hacer algún
+cambios:
+
+<br>
+<br>
+<ul>
+<li>Deshabiliar el ambiente de depuración</li>
+
+<li>Cambiar el servidor de web, por el definitivo de producción</li>
+</ul>
+
+
+
+<footer class="der">
+</footer>
+</section>
+
+
+<section>
+<h2>Despliegue de Django</h2>
+
+Para deshabilitar en el ambiente de desarrollo
+en el archivo <code><b>settings.py</b></code>, &nbsp; se cambia:
+
+<br>
+
+<pre class="prettyprint" style="width:700px;height:280px;font-size:75%;border-style:none;">
+
+
+
+# DEBUG = True, pasa a:
+
+DEBUG = False  # y
+
+# ALLOWED_HOSTS = [] pasa a:
+
+ALLOWED_HOSTS = ['*'] # o el que sea en producción
+
+
+</pre>
+
+
+<footer class="der">
+<a href="https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/">
+Deployment checklist</a>
+</footer>
+</section>
+
+<section>
+	<h2>WSGI</h2>
+	<br>Hay que conectar la aplicación con el servidor web definitivo
+	<br><br>
+	<img src="imagenes/wsgi.png" style="width:60%"/>
+</section>
+
+<section>
+<h2>WSGI</h2>
+
+<p>
+
+La aplicación funcionará con otro servidor de web
+distinto del de desarrollo, que además se encargará
+de servir los archivos (el directorio <code>static</code> y el
+<code>media</code> )
+
+<br><br>
+
+Django, como el resto de los frameworks de python, necesitan un servidor web con interface &nbsp;
+<a href="https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface">
+Web Server Gateway Interface</a>
+</p>
+
+<footer class="der">
+<a href="https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/">
+How to deploy with WSGI</a>
+</footer>
+</section>
+
+<section>
+<h2>WSGI</h2>
+
+Con WSGI, el servidor de web hace una llamada síncrona a la aplicación con toda
+la información del request
+<br><br>
+<img src="imagenes/web-browser-server-wsgi.png" style="width:90%"/>
+
+
+
+
+<footer class="der">
+<a href="http://www.fullstackpython.com/wsgi-servers.html">
+WSGI Servers</a>
+</footer>
+</section>
+
+
+<section>
+<h2>WSGI</h2>
+
+WSGI, tiene previsto que haya &nbsp; <code><b>middleware</b></code> &nbsp; entre el servidor web y
+la aplicación, a ambos lados del API
+<br>
+<img src="imagenes/wsgi-middleware.png" style="width:40%"/>
+
+
+
+
+<footer class="der">
+<a href="http://www.fullstackpython.com/wsgi-servers.html">
+WSGI Servers</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2>gunicorn</h2>
+
+<a href="http://gunicorn.org">gunicorn</a>, es un servidor de web wsgi muy sencillo
+de instalar, que substituye al runserver de desarrollo
+
+
+<pre class="prettyprint" style="width:700px;height:280px;font-size:75%;border-style:none;">
+
+# para instalar
+sudo pip3 install gunicorn
+
+# para ejecutar el puerto 8000
+/usr/local/bin/gunicorn mi_app.wsgi --bind: 0.0.0.0:8000
+
+</pre>
+
+Django ya tiene el archivo .wsgi en el mismo directorio de
+setttings.py
+
+
+<footer class="der">
+<a href="https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/gunicorn/">
+How to use Django with Gunicorn</a>
+</footer>
+</section>
+
+<section>
+<h2>Supervisión</h2>
+
+Para arrancar y mantener arrancado el servidor gnunicorn podemos
+usar <a href="http://supervisord.org/">supervisord</a>, que vigilará que el
+proceso siempre esté ejecutandose
+<br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:60%;border-style:none;">
+# Añadir al final del arhivo supervisor.conf
+[program:gunicorn]
+command=/usr/local/bin/gunicorn sitio_web.wsgi  --bind 0.0.0.0:8000
+directory=/path/donde/este/manage.py
+user=elquesea
+autostart=true
+autorestart=true
+redirect_stderr=true
+</pre>
+También podremos usar <a href="https://wiki.debian.org/systemd">systemd</a>, como se
+detalla en el enlace de abajo
+<br />
+<footer class="der">
+<a href="http://docs.gunicorn.org/en/latest/deploy.html#supervisor">
+Deploying Gunicorn
+</a>
+</footer>
+
+</section>
+
+
+
+<section>
+<h2>nginx</h2>
+
+Para servir los archivos, balance de carga, restricciones de acceso, etc, https, etc se puede
+usar &nbsp; <strong><a href="http://nginx.org/">nginx</a></strong>
+
+<pre class="prettyprint" style="width:700px;height:380px;font-size:60%;border-style:none;">
+   server {
+     listen 80 default_server;
+
+     # servidor web para archivos en  /static
+     location /static/ {
+		alias /var/www/static/;
+	 }
+
+     # proxy inverso, se pasa a la aplicación wsgi
+     location / {
+           proxy_pass http://127.0.0.1:8000;
+           proxy_set_header X-Forwarded-Host $server_name;
+           proxy_set_header X-Real-IP $remote_addr;
+     }
+</pre>
+
+<footer class="der">
+<a href="http://rahmonov.me/posts/run-a-django-app-with-nginx-gunicorn-and-supervisor/">
+Run a Django app with Gunicorn in Ubuntu 16.04 </a>
+</footer>
+</section>
+
+
+
+<section>
+<h2>STATIC</h2>
+
+Django dejará de servir los archivos en <code>/static y /media</code>, cuando
+esté <code>DEBUG = False</code> , por tanto haremos un script para copiar los archivos
+al directorio donde los sirva nginx
+<br><br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:60%;border-style:none;">
+#/bin/bash
+cp -r static/ /var/www/static
+cp -r media/ /var/www/media
+</pre>
+<footer class="der">
+<a href="https://stackoverflow.com/questions/34586114/whats-the-point-of-djangos-collectstatic">
+What's the point of Django's collectstatic?</a>
+</footer>
+
+</section>
+
+<section>
+<h2>Servicios en la nube</h2>
+
+
+<img src="imagenes/UnderstandingCloudComputing.jpg" style="width:80%"/>
+
+
+
+
+<footer class="der">
+<a href="http://stackoverflow.com/questions/16820336/what-is-saas-paas-and-iaas-with-examples">
+What is SaaS, PaaS and IaaS?</a>
+</footer>
+</section>
+
+
+
+
+<section>
+<h2>Virtualización ligera</h2>
+Una posibilidad, es usar un contenedores para instalar la aplicación
+
+<img src="imagenes/docker_containers_vms.png" style="width:80%"/>
+</section>
+
+
+<section>
+<h2>docker</h2>
+
+<br><br>
+De esta manera se independiza la instalación del servidor de producción,
+el ejecutable va ser siempre el mismo
+
+<br>
+<br>
+Además la instalación va a simplificarse al utilizarse scripts
+de aprovisionamiento
+
+
+<footer class="der">
+<a href="https://rubygarage.org/blog/advantages-of-using-docker-for-microservices">
+Advantages of Using Docker for Microservices
+</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Dockerfile</h2>
+<pre class="prettyprint" style="width:700px;height:380px;font-size:60%;border-style:none;overflow:scroll;">
+from debian:jessie
+maintainer yo@correo.es
+
+# variables de ambiente
+#     código (solo lectura)
+env project_dir /Pruebas_django/
+#     datos: MEDIA_ROOT, db.sqlite (lectura y escritura)
+env volume_dir /var/Volumes/Project_django
+
+run apt-get -y update
+
+# lo mínimo para django
+run apt-get install -y apt-utils
+run apt-get install -y python python-dev python-setuptools
+
+# para instalar pip
+run apt-get install -y git
+run easy_install -U pip
+
+# donde va a estar la aplicación
+add . ${project_dir}
+workdir $project_dir
+
+run pip install -r requeriments.txt
+
+
+# PRODUCCION
+run pip install gunicorn
+
+# servidor web y watchdog
+run apt-get install -y supervisor nginx
+
+#  configuraciones
+run cp  despliegue/supervisor.conf /etc/supervisor/conf.d/
+run cp  despliegue/nginx-default /etc/nginx/sites-available/default
+
+run sed -i 's/DEBUG = True/DEBUG= False/' Pruebas_django/settings.py
+
+expose 80
+
+cmd despliegue/collect_static.sh && supervisord
+</pre>
+
+<footer class="der">
+<a href="">
+
+</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2>docker-compose</h2>
+
+Docker, también se puede usar para desarrollo, con
+<a href="https://picodotdev.github.io/blog-bitix/2015/07/aplicaciones-multicontenedor-con-docker-compose/">
+<code>docker-compose</code></a>
+<br>
+
+<img src="imagenes/d-c.png" style="width:70%;height:400px;"/>
+
+<footer class="der">
+<a href="https://docs.docker.com/compose/django/">
+Quickstart Guide: Compose and Django
+</a>
+</footer>
+</section>
+
+
+
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 630px;
+       line-height:1.6em;
+       margin: auto auto auto 100px;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    //list-style-type: none;
+    padding: 9px;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>

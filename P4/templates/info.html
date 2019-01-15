@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Hello!</h1>
+    <p><strong> {{ session['name'] }} </strong></p>
+    <p><strong> {{ session['email'] }} </strong></p>
+
+    <form action = './update_info.html'>
+        <button class="btn btn-primary"> Update info </button>
+    </form>
+    <form action = './log_out' style="margin-top:5px;margin-bottom: 5px;">
+        <button class="btn btn-primary"> Log Out </button>
+    </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-inline" method="POST" style="margin-left:10%;margin-top:5px;">
+    <div class="form-group">
+
+        <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Nombre Restaurante">
+
+    </div> 
+    <button style="margin-left:5px;" type="submit" class="btn btn-primary">Buscar</button>
+
+</form>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">name</th>
+        <th scope="col">location</th>
+        <th scope="col">modificar</th>
+        <th scope="col">borrar</th>
+      </tr>
+    </thead>
+    {% if aviso %} <!--Si aviso muere-->
+    <tbody>
+            <tr><td><div class='alert alert-danger'>
+                    <strong> {{ aviso }} </strong>
+                </div></td></tr>
+    </tbody>
+
+    
+    {% elif result %}
+    <tbody>
+        {% for local in result %}
+            <tr>
+                <td>
+                    {{local.name}}
+                </td>
+                
+                <td>
+                    {{local.location.coordinates}}
+                </td>
+                
+                <td>
+                    
+                    <a style="text-decoration:none;" href="/modificar.html/{{local._id}}" ><i style='width:5px;'class='fas fa-pencil-alt'>
+                </td>
+                <th>
+                    <a style='margin-left: 30px;text-decoration:none;color:red;' href="/borrar.html/{{local._id}}" ><i style='width:5px;'class='fas fa-eraser'></i></a>
+                </td>
+
+                
+            </tr>
+        {% endfor %}
+
+    </tbody>
+    {% endif %}
+
+</table>
+{% endblock %}

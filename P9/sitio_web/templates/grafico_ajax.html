@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+
+{% block head_graf %}
+<script>
+    var rest;
+    var plat;
+    var chart;
+//var primera_vez;
+
+    
+    function modificarGrafico(data) {
+        var resta = parseFloat(data['rest']);
+        var plato = parseFloat(data['platos']);
+
+        var options = {
+            chart: {
+                renderTo: 'graph',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                height: 400
+            },
+            title: {
+                text: 'Número de <br> restaurantes <br> VS <br> Número de platos <br> vegetarianos',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 40
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                percentageDecimals: 1
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%']
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Comparativa',
+                innerSize: '50%',
+                data: [
+                    ['Restaurantes', resta],
+                    ['Platos vegetarianos', plato]
+                ]
+            }]
+        }
+        if (chart!==undefined) 
+            chart.destroy();
+        chart = new Highcharts.Chart(options);
+        $('#ProductPieMod div.mod_content').css('height', $('#graph').css('height'));
+    }
+
+    function carga_datos(rest,plat){
+        
+        $.ajax({
+            url: '{% url 'modDatos' %}',
+            type : 'GET',
+            data: {'rest':rest,'platos':plat},
+    
+            success: function(data){
+            
+                data = JSON.parse(data);
+                //saber número de columnas
+                //var nColumnas = $("#list_res tr:last th").length;
+                //if(!primera_vez){
+                /*borramos todas menos la del la cabecera*/
+                    while( chart.series.length > 0 ) {
+                        chart.series[0].remove( false );
+                    }
+
+                    //chart.redraw();
+                //}
+                //si tuvieramos uno para decrecer,comprobariamos que todo va bien
+                modificarGrafico(data);
+    
+            },
+    
+            error: function(e){
+                console.log(e);
+            }
+    
+    
+        });
+    }
+
+
+    window.onload = function() {
+        rest = 50;
+        plat = 30;
+        data = {'rest':rest,'platos':plat};
+        modificarGrafico(data);
+        
+    };
+
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div id = "graph" style = "width: 550px; height: 400px; margin: 0 auto"></div>
+<div id = "botones">
+    <button type="button" class="btn btn-primary" onclick="rest++;carga_datos(rest,plat);"> Añadir Restaurante </button>
+    <button type="button" class="btn btn-primary" style="background-color: green" onclick="plat++;carga_datos(rest,plat);" > Añadir Plato Vegetariano </button>
+</div>
+
+{% endblock %}

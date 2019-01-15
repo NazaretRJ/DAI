@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="evento row col-sm-12 col-md-12 col-lg-12">
+            <div class="col-sm-6 col-md-5 col-lg-3">
+                <a href="https://www.ea.com/es-es/games/unravel">
+                    <img src="{{ url_for('static', filename='img2/unravel.jpeg') }}" class="rounded" width="230px" height="200px">
+                </a>
+            </div>
+
+            <div class="col-sm-6 col-md-7 col-lg-8">
+                
+                    <h2>Unravel</h2>
+                    <b> Una encantadora aventura de plataformas donde tendrás que controlar a un Yarny
+                        un ser hecho de lana.<br>Tendrás que saltar, correr, balancearte y resolver puzles
+                        para completar la aventura. 
+                    </b>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="evento row col-sm-12 col-md-12 col-lg-12">
+            <div class="col-sm-6 col-md-5 col-lg-3">
+                <a href="https://www.orithegame.com/blind-forest/">
+                    <img src="{{ url_for('static', filename='img2/ori.png') }}" class="rounded" width="230px" height="200px">
+                </a>
+            </div>
+    
+            <div class="col-sm-6 col-md-7 col-lg-8">
+                    
+                <h2>Ori and the blind forest</h2>
+                <b> La voz del Árbol de Espíritu comienza la historia narrando desde el momento cuando Ori 
+                    cae del árbol al bosque de Nibel durante una tormenta. 
+                    Ori es encontrado y adoptado por una criatura de nombre Naru, 
+                    quien cria a Ori como su propio hijo.Tiempo despues, un cataclismo cae sobre el bosque
+                     y los suministros de alimentos se secaron...
+                </b>
+                    
+            </div>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="evento row col-sm-12 col-md-12 col-lg-12">
+                <div class="col-sm-6 col-md-5 col-lg-3">
+                    <a href="https://blue-acentor.itch.io/farm-n-gun">
+                        <img src="{{ url_for('static', filename='img2/farm.png') }}" class="rounded" width="230px" height="200px">
+                    </a>
+                </div>
+        
+                <div class="col-sm-6 col-md-7 col-lg-8">
+                    
+                    <h2>Farm 'n' gun</h2>
+                    <b> Un run 'n gun  mezclado con un farming. Donde 
+                        tienes que sobrevivir a unas oleadas de cuervos que van a por ti.
+                        Escoge bien tu arma,cada una es diferente, elige, apunta y ¡dispara!
+                    </b>
+                        
+                </div>
+            </div>
+        </div>
+
+</div>
+{% endblock %}
+

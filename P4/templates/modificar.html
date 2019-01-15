@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-inline" method="POST" style="margin-left:10%;margin-top:5px;">
+    <div class="form-group">
+
+        <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Nuevo Nombre Restaurante">
+        <input type="hidden" class="form-control" id="id" name="id" value={{id_mod}}>
+ 
+    </div> 
+    <button style="margin-left:5px;" type="submit" class="btn btn-primary">Modificar</button>
+
+</form>
+
+{% endblock %}

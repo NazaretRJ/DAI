@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+{% block head_graf %}
+<script>
+$(document).ready(function(){
+    var series = {
+        type: 'pie',
+        innerSize: '50%'
+    };
+
+    var chart = new Highcharts.chart('graph', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Número de <br> restaurantes <br> VS <br> Número de platos <br> vegetarianos',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%'],
+                size: '110%'
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            innerSize: '50%',
+            data: [
+                ['Restaurantes', 80],
+                ['Platos vegetarianos', 20]
+            ]
+        }]
+    });
+
+});
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div id = "graph" style = "width: 550px; height: 400px; margin: 0 auto"></div>
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url 'form_buscar' %}" class="form-inline" method="POST" style="margin-left:10%;margin-top:5px;">
+    <div class="form-group">
+        {% csrf_token %}
+        {{ form }}
+    </div> 
+    <button style="margin-left:5px;" type="submit" class="btn btn-primary">Buscar</button>
+
+</form>
+
+
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">name</th>
+        <th scope="col">location</th>
+
+            <th scope="col">Mapa</th>
+
+
+      </tr>
+    </thead>
+    {% if aviso %} <!--Si aviso muere-->
+    <tbody>
+            <tr><td><div class='alert alert-danger'>
+                    <strong> {{ aviso }} </strong>
+                </div></td></tr>
+    </tbody>
+
+    
+    {% elif result %}
+    <tbody>
+        {% for local in result %}
+            <tr>
+                <td>
+                    {{local.name}}
+                </td>
+                
+                <td>
+                    {{local.location.coordinates}}
+                </td>
+        
+                    <td>
+                        <a href="{% url 'mapa' nombre_res=local.name %}">Map</a>
+                    </td>
+        
+
+            </tr>
+        {% endfor %}
+
+    </tbody>
+    {% endif %}
+
+</table>
+<div class="paginador">
+    {% if prev >= 0 %}
+        <a href="{% url 'buscar' pag=prev  %}">Atrás</a>
+    {% endif %}
+    <a href="{% url 'buscar' pag=next %}">Siguiente</a>
+
+<div>
+{% endblock %}
+

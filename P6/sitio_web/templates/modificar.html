@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-inline" method="POST" style="margin-left:10%;margin-top:5px;">
+    <div class="form-group">
+        {% csrf_token %}
+        {{ form }}
+    </div> 
+    <button style="margin-left:5px;" type="submit" class="btn btn-primary">Modificar</button>
+
+</form>
+
+{% endblock %}

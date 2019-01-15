@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>DAI, Servicios Web</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>HTML5, css frameworks</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+<section>
+<h2>Versiones <strong>&nbsp;HTML</strong></h2>
+
+Hitos en el desarrollo de HTML:
+<ul style="margin-left:2%; font-size:60%">
+ <li></li>
+<li><b>HTML 2.0, (1995)&nbsp;</b> &nbsp; en los primeros navegadores</li>
+
+<li><b>HTML 3.2, (1997) &nbsp; </b> &nbsp; ya incluyó formularios y tablas</li>
+
+<li><b>HTML 4.0, (1997) &nbsp; </b> &nbsp; con CSS</li>
+
+<li><b>HTML 4.01, (1999) &nbsp; </b> &nbsp; el que venimos usando</li>
+
+<li><b>XHTML 1.0, (2000) &nbsp; </b></li>
+<li></li>
+<li><b>. . . &nbsp; </b> &nbsp; plugins: flash player, java, javascript, silverlight, actionscript</li>
+<li></li>
+<li><strong>HTML5, (2014) &nbsp;</strong> &nbsp; versión actual</li>
+
+</ul>
+
+
+<footer class="der">
+<a href="http://en.wikipedia.org/wiki/HTML">
+HTML</a>
+</footer>
+</section>
+
+<section>
+<h2>Novedades del <strong>&nbsp; HTML5</strong></h2>
+Principales novedades del HTML5
+<br><br>
+<ul style="margin-left:2%; font-size:70%;margin-right:0%">
+<li> Nuevo parsing, no basado en <code>&nbsp;SGML</code>, &nbsp; se dispara con
+<code>&nbsp; &lt;!DOCTYPE html&gt;</code>
+</li>
+<li> Elementos multimedia &nbsp; <code>&lt;audio&gt;, &lt;video&gt; y &lt;canvas&gt; </code></li>
+
+<li> Elementos <i>semánticos</i> para substituir a <code>&nbsp;&lt;div&gt;&nbsp;</code> y
+<code>&nbsp;&lt;span&gt;&nbsp;</code>: <code>&nbsp;&lt;section&gt;&nbsp;</code>,
+<code>&nbsp;&lt;article&gt;&nbsp;</code>, <code>&nbsp;&lt;header&gt;&nbsp;</code>,
+<code>&nbsp;&lt;footer&gt;&nbsp;</code>, <code>&nbsp;&lt;nav&gt;&nbsp;</code>
+</li>
+
+<li>Nuevos elementos para forms: <code>&nbsp;&lt;datalist&gt;&nbsp;</code>, tipos
+de entrada para campos: <code> text, date, url, email, tel,  number, color, etc </code>
+&nbsp; con validación del navegador
+</li>
+
+</ul>
+
+<footer class="der">
+<a href="http://www.w3schools.com/html/html5_intro.asp">
+HTML5 intro</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Novedades del <strong>&nbsp; HTML5</strong></h2>
+Principales novedades del HTML5
+<br><br>
+
+<ul style="margin-left:12%; font-size:75%;margin-right:-10%">
+
+
+<li> Inclusión de
+   <a href="https://www.w3schools.com/graphics/svg_intro.asp"><code>SVG</code></a> y
+    <a href="https://www.w3.org/Math/whatIsMathML.html"><code>MATHML</code>
+   </a></li>
+
+<li> Soporte de <a href="https://www.w3schools.com/html/html5_geolocation.asp">
+   geolocalización</a></li>
+
+<li> Soporte para <a href="https://www.w3schools.com/html/html5_draganddrop.asp">
+   arrastrar y soltar</a></li>
+
+
+<li>Soporte de almacenamiento local: &nbsp;
+<a href="https://codeburst.io/using-html5-web-storage-a450294484bb">Web storage</a>
+</li>
+
+
+<li>HTML5 &nbsp;
+<a href="https://www.w3schools.com/Html/html5_canvas.asp">Canvas</a>
+</li>
+
+
+<li>Soporte para CSS3</li>
+
+</ul>
+
+<footer class="der">
+<a href="https://www.desarrolloweb.com/manuales/css3.html">
+CSS3 intro</a>, &nbsp;
+<a href="http://www.w3schools.com/css/css_rwd_intro.asp">
+Responsive Design</a>, &nbsp;
+
+</footer>
+</section>
+
+
+
+<section>
+<h2>Soporte del <strong>&nbsp; HTML5</strong></h2>
+
+<div style="font-size:80%; position:absolute; top: 180px; left: 0px; width:35%">
+<strong>&nbsp; HTML5 &nbsp;</strong> todavía no está completamente implementado<br>
+<br>
+No todos los navegadores soportan todas las propuestas
+</div>
+
+
+<img src="./imagenes/420px-HTML5-APIs-and-related-technologies-by-Sergey-Mavrody.png" class="cen" style="left:40%;top:160px;height:280px;width:400px;box-shadow: 0 0 0 0;">
+
+
+
+<footer class="der">
+<a href="http://html5test.com/">
+HTML5 test</a>
+</footer>
+</section>
+
+
+<section>
+<h2>CSS Frameworks</h2>
+
+A la hora del diseño de una página web ayudarían plantillas para:
+<br>
+<ul style="margin-left:40px;font-size:80%">
+ <li></li>
+ <li></li>
+<li><strong>elementos complejos</strong>  que podamos poner, como menús, enlaces, forms</li>
+<li></li>
+<li> <strong>situar</strong>  los elementos en la página, que queden legibles e iguales en todos los
+navegadores </li>
+<li></li>
+<li><strong>que cambie </strong>adecuadamente con el tamaño del distpositivo: móvil, tablet o PC</li>
+</ul>
+
+
+<footer class="der">
+<a href="http://usablica.github.io/front-end-frameworks/compare.html">
+CSS Front-end Framework with comparation</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Twitter Bootstrap</h2>
+
+Es una colección de plantillas de css y js originalmente usada en Twitter para
+<br>
+
+<ul style="margin-left:60px;font-size:80%">
+<li></li>
+<li>Responsive design (adaptación automática a móviles y tablets)</li>
+<li></li>
+<li>Grid System  (posicionar los elementos en la página)</li>
+<li></li>
+<li>Interface UI (forms, botones, menús, etc)</li>
+</ul>
+<br>
+Además se pueden encontrar <a href="http://bootstraphero.com/the-big-badass-list-of-twitter-bootstrap-resources">
+añadidos</a> aparte de la distribución oficial
+
+
+
+<footer class="der">
+<a href="http://getbootstrap.com/">
+Bootstrap</a>
+</footer>
+</section>
+
+<section>
+<h2>Usando bootstrap</h2>
+<br>
+<ul style="font-size:80%">
+<li> 1.- Descargamos el código desde
+   <a href="http://getbootstrap.com/docs/4.0/getting-started/download/">
+Bootstrap</a> o usamos un
+<a href="http://getbootstrap.com/docs/4.0/getting-started/download/#bootstrapcdn">Content Delivery Network
+</a></li>
+
+<li></li>
+<li>2.- Nos bajamos alguna de las plantillas de los
+<a href="https://getbootstrap.com/docs/4.1/examples/">Ejemplos</a>
+</li>
+
+<li></li>
+
+<li>3.- Nos fijamos en el
+<a href="https://getbootstrap.com/docs/4.1/examples/grid/">sistema de grid</a>,
+para controlar como aparecerán los elementos en distintos tamaños de pantalla
+</li>
+
+
+<li></li>
+
+<li>4.- Vamos añadiendo componentes tal como viene en la
+<a href="https://getbootstrap.com/docs/4.1/components/alerts/">documentación</a>
+</li>
+</ul>
+
+
+
+<footer class="der">
+<a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/">
+Bootstrap tutorial</a>
+</footer>
+</section>
+
+
+<section>
+   <h2>Materialize</h2>
+   Una alternativa<br><br><br><br>
+   <p style="font-size:150%; margin-left:30%">
+   <strong><a href="https://materializecss.com/">Materialize</a></strong>
+   </p>
+   <footer class="der">
+   <a href="https://material.io/">
+    Google Material</a> &nbsp; <a href="https://en.wikipedia.org/wiki/Material_Design">
+      Design</a>
+   </footer>
+
+</section>
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 630px;
+       line-height:1.6em;
+       margin: auto auto auto 100px;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  /*
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  */
+    ul {
+      margin-top: 20px;
+      color:navy;
+      text-align: left;
+      //border-left: 4px solid white;
+      padding-right: 20%;
+      min-width: 310px;
+      margin-left: 150px;
+      display: inline-block;
+      font-size: 95%;
+  }
+
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    list-style-type: none;
+    padding: 9px;
+    color: darkblue;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>

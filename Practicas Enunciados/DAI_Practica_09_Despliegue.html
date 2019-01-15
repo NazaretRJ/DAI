@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>DAI Práctica 9 - Despliegue</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markup.min.js"></script>
+<style>
+p {
+   font-size: 1em;
+   margin-top: 2em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+	<br>
+	<h2>Diseño de Aplicaciones para Internet (2018-2019)</h2>
+	<br>
+	<h4>Guión de Prácticas 9: Despliegue</h4>
+
+<p>
+   <img src="https://raw.githubusercontent.com/realpython/flask-deploy/master/images/localhost2.jpg">
+</p>
+
+<p>
+La última práctica consiste en tener una aplicación web desplegada en un ambiente de 'producción',
+es decir funcionando con la depuración en 'OFF' y conectada
+a un servidor web como <a href="https://www.nginx.com/">ngix</a> o <a href="http://httpd.apache.org/">apache</a> en
+el puerto 80.
+</p>
+<p>
+   Puede ser alguna que se haya hecho en las prácticas con flask o django, u <code><b>otra que se haya hecho
+en la asignatura de Infraestructura Virtual</b></code>.
+</p>
+<p>
+   El despliuege puede ser como <a href="https://stackoverflow.com/questions/16820336/what-is-saas-paas-and-iaas-with-examples">IAAS</a> en
+   una maquina virtual, o como <a href="https://stackoverflow.com/questions/16820336/what-is-saas-paas-and-iaas-with-examples">PAAS</a> en
+   un serivdor como <a href="https://www.heroku.com/">heroku</a>, o incluso con <a href="https://medium.com/@Alibaba_Cloud/how-to-deploy-a-django-application-with-docker-9514be542909">contenedores</a>
+   <a href="https://en.wikipedia.org/wiki/Docker_(software)">docker</a>
+</p>
+<br><br>
+<h5>Despliegue en la maquina virtual</h5>
+<p>
+   El despliegue de una aplicación con django, está contada en:
+	<a href="http://rahmonov.me/posts/run-a-django-app-with-gunicorn-in-ubuntu-16-04/">
+		Run a Django app with Gunicorn in Ubuntu 16.04 </a>
+, y en las transparencias de clase.
+</p>
+<p>
+Básicamente consiste en poner la configuración de producción, es decir en el archivo
+<b>settings.py</b> estarán las variables:
+</p>
+<pre class=" language-python"><code class=" language-python">DEBUG <span class="token operator">=</span> <span class="token boolean">False</span>
+
+ALLOWED_HOSTS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'*'</span><span class="token punctuation">]</span>
+</code></pre>
+<p>
+
+Con esto dejará de funciona el servidor de desarrollo, y de servir los contenidos de <b>/static</b>, que tendrán
+que pasar a servirse desde el servidor web de producción. Django tiene un script:
+<a href="https://docs.djangoproject.com/en/2.1/ref/contrib/staticfiles/">collectstatic</a>
+para facilitar pasar los contenidos a otro directorio.
+</p>
+
+<p>
+   Después habrá que poner funcionar la aplicación desde un servidor web
+    <a href="https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface">wsgi</a>,
+   (p.e. <a href="http://gunicorn.org/">gunicorn</a>),
+
+   y conectar la aplicación y el resto de servicios que pudiera haber (p.e. servir los archivos static) a un servidor
+    web que también
+   funcione como <a href="https://en.wikipedia.org/wiki/Reverse_proxy">proxy inverso</a> (p.e. <a href="https://www.nginx.com/">nginx</a>)
+   en el puerto 80
+</p>
+<p>
+   Los programas necesarios, nginx, gunicorn y supervisor se pueden instalar instalan desde el apt-get:
+   </p><pre class=" language-bash"><code class=" language-bash"><span class="token operator">&gt;</span> <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> nginx supervisor</code></pre>
+<p></p>
+<p>
+   gunicorn lo instalamos con pip3
+   </p><pre class=" language-bash"><code class=" language-bash"><span class="token operator">&gt;</span> <span class="token function">sudo</span> pip3 <span class="token function">install</span> gunicorn</code></pre>
+<p></p>
+
+<p>
+   Para poner a funcionar <a href="http://docs.gunicorn.org/en/latest/run.html">gunicorn</a> en las versión más reciente sería:
+   </p><pre class=" language-bash"><code class=" language-bash"><span class="token comment"># para ejecutar el puerto 8000</span>
+/usr/local/bin/gunicorn sitio_web.wsgi -b :8000</code></pre>
+<p></p>
+<p>
+   La configuración de superivisor y de nginx sería la que aparece en la <a href="http://docs.gunicorn.org/en/latest/deploy.html">
+   documentación de gunicorn</a>, y en las transparecias de clase
+</p>
+<p>
+   Por último habría que reconfigurar los puertos de la máquina virtual en el <code>Vagrantfile</code> para
+	abrir el puerto 80
+</p>
+
+<!-- <p>
+   Para automatizar el proceso, pondremos scripts de despliegue con <a href="https://en.wikipedia.org/wiki/Makefile">Makefile</a>
+</p> -->
+<p style="font-size:90%">
+   Algunos enlaces:
+   </p><ul style="font-size:90%; margin-top:-1em;">
+		<li>
+         <a href="https://devcenter.heroku.com/articles/deploying-python">Deploying Python and Django Apps on Heroku</a> (PAAS)
+      <br><br></li>
+      <li>
+	   <a href="https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/gunicorn/">How to use Django with Gunicorn</a>,
+	</li>
+	<li>
+		<a href="http://docs.gunicorn.org/en/latest/deploy.html">Deploying Gunicorn</a>,
+	</li>
+	<li>
+	   <a href="http://docs.gunicorn.org/en/latest/deploy.html#supervisor">Supervisor</a>
+</li>
+
+   </ul>
+<p></p>
+
+
+</div>
+<br><br>
+
+
+</body></html>

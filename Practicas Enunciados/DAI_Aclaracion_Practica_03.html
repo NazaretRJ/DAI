@@ -1,0 +1,64 @@
+ 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>DAI Aclaración práctica 3</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markup.min.js"></script>
+<style>
+p {
+   font-size: 1em;
+   margin-top: 2em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+	<br />
+	<h2>Diseño de Aplicaciones para Internet (2018-2019)<br />
+ Aclaración Práctica 3: Sobre PickleShareDB</h2>
+	
+	<h4>Posible problema en el uso de <code>PickleShareDB</code></h4>
+	
+	<p>En la pŕacitca 3 se ha propuesto el uso de <code>PickleShareDB</code>, que es una biblioteca que permite de manera muy básica que almacena en disco un diccionario. Como habréis visto en el ejemplo de la práctica su manejo es extremadamente simple: simplemente al asignar el valor de una de los elementos del diccionario se guardarán dichos cambios en el disco para que en una posterior ejecución se pueda leer y usar dicha información. Sin embargo es posible que nos estemos enfrentando a un pequeño problema. Si ejecutamos:</p>
+	
+	<pre><code class="language-python">
+            db = PickleShareDB('miBD')
+            db['pepe'] = dict()
+            db['pepe']['pass'] = '1234'</code></pre>
+	
+	<p>Podremos comprobar al relanzar nuestra aplicación que <code class="language-python">db['pepe']</code> es un diccionario vacio (y hemos perdido el valor de <code>'pass'</code>).</p>
+	
+	<p>Este problema ocurre porque la biblioteca <code>PickleShareDB</code> no puede detectar cambios en objetos mutables que se usen su diccionario. Es decir, no se da cuenta que hemos cambiado el objeto diccionario que habíamos creado en la segunda línea del ejemplo anterior.</p>
+	
+	
+	
+	<h4>Posibles soluciones</h4>
+	
+	<p>Existen varias opciones que podemos usar para evita este problema. Por ejemplo:</p>
+	
+	<pre><code class="language-python">
+            db = PickleShareDB('miBD')
+            db['pepe'] = {'pass': '1234'}</code></pre>
+	
+	<p>En este caso estamos creando el diccionario y rellenándolo ANTES de hacer la asignación en la base de datos de <code>PickleShareDB</code>. Otra posible solución es forzar la grabación del objeto mutable despues de haberlo cambiado:</p>
+	
+	<pre><code class="language-python">
+            db = PickleShareDB('miBD')
+            db['pepe'] = dict()
+            db['pepe']['pass'] = '1234'+
+            db['pepe'] = db['pepe']</code></pre>
+            
+        <p>La última línea de este código parece redundante, pero en realidad lo que está consiguiendo con esa asignación al diccionario de <code>PickleShareDB</code> es que se active la grabación de la información en el disco.</p>
+
+
+</div>
+<br /><br />
+
+</body>
+</html>

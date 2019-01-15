@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8"/>
+<title>DAI, Javascript, ES6, jQuery</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>Javascript, ES6, jQuery</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+<section>
+	<h2>Javascript</h2>
+<br>
+<table boder="0">
+	<tr>
+		<td width="50%">
+En el navegador tenemos que usar <strong>JavaScript</strong>, sí o sí<br>
+<a href="https://www.cleveroad.com/blog/check-out-what-alternatives-to-javascript-can-be-found-in-the-market">
+	pero, </a>
+      </td>
+		<td width="50%">
+			<img src="imagenes/javascript.png" width="100%"/>
+		</td>
+	</tr>
+</table>
+<footer class="der"><a href="https://www.girldevelopit.com/materials/intro-js">
+Introduction to JavaScript </a></footer>
+</section>
+
+<section>
+	<h2>ES6</h2>
+	<img src="imagenes/ecmascript2015-senchacon-img2.png" width="90%"/>
+	<footer class="der">
+		<a href="http://exploringjs.com/es6/">
+	Exploring ES6</a>,
+	<a href="http://es6-features.org">E6 New features</a>
+</footer>
+</section>
+
+<section>
+<h2>jQuery</h2>
+<p>
+Librería de javascript para:
+</p>
+<ul>
+<li>Seleccionar y manipular <strong>&nbsp;HTML&nbsp;</strong> y <strong>&nbsp;CSS</strong><br><br></li>
+<li>Modificar el <strong>&nbsp;DOM</strong><br><br></li>
+<li>Animaciones<br><br></li>
+<li>AJAX<br><br></li>
+</ul>
+
+<footer class="der">
+<a href="https://jquery.com/">jQuery</a>
+</footer>
+</section>
+
+<section>
+<h2>Como funciona jQuery</h2>
+
+<br>
+
+<p>
+<a href="https://learn.jquery.com/about-jquery/how-jquery-works/">
+   How jQuery Works</a>
+</p>
+<br>
+<p>
+<a href="https://learn.jquery.com/using-jquery-core/selecting-elements/">
+   Selectores</a>
+</p>
+<br>
+<p>
+<a href="http://api.jquery.com/category/events/">
+   Eventos</a>
+</p>
+
+
+<footer class="der">
+<a href="https://learn.jquery.com/about-jquery/">
+About jQuery
+</a>
+</footer>
+</section>
+
+<section>
+<h2>Qué hace jQuery</h2>
+<br>
+<p>
+<a href="https://learn.jquery.com/using-jquery-core/css-styling-dimensions/">
+   Manipular  CSS</a>
+</p>
+<p>
+<a href="https://learn.jquery.com/using-jquery-core/manipulating-elements/">
+   Manipular elementos</a>
+</p>
+<p>
+<a href="https://learn.jquery.com/effects/intro-to-effects/">
+   Efectos y animaciones</a>
+</p>
+<p>
+<a href="https://learn.jquery.com/ajax/">
+   AJAX</a>
+</p>
+
+
+<footer class="der">
+<a href="https://learn.jquery.com/about-jquery/">
+About jQuery
+</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Ajax con jQuery</h2>
+
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+
+&lt;script&gt;
+$(function(){                          // jQuery function
+
+   $('#boton').click(function() {
+     $.get ('/get_dni',                // url
+            {nombre:'pepito'},         // datos
+            function (data) {          // callback
+               $('#aqui').text(data.dni);
+            }
+         );
+      });
+});
+&lt;/script&gt;
+</pre>
+<footer class="der">
+<a href="https://api.jquery.com/jquery.get/">
+jQuery .get
+</a>
+</footer>
+
+</section>
+
+<section>
+<h2>Flask </h2>
+<br>
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+from flask import jsonify, request
+
+@app.route('/get_dni')
+def responde():
+    nombre = request.args.get('nombre', '')
+    data = {
+      'dni': Consulta_dni_de(nombre)
+    }
+    return jsonify(data)    # podría ser string o HTML
+
+</pre>
+
+<footer class="der">
+<a href="http://flask.pocoo.org/docs/0.11/patterns/jquery/">
+Ajax con Flask
+</a>
+</footer>
+</section>
+
+<section>
+<h2>Django</h2>
+<br>
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+from django.http import JsonResponse
+
+def responde(request):
+    nombre = request.GET.get('nombre', '')
+    data = {
+       'dni': Consulta_dni_de(nombre)
+    }
+    return JsonResponse(data)    # podría ser string o HTML
+
+</pre>
+
+<footer class="der">
+<a href="https://rayed.com/posts/2013/12/django-returning-json-for-ajax-requests/">
+Django returning JSON for AJAX requests
+</a>
+</footer>
+</section>
+
+
+<section>
+<h2>AJAX es <a href="http://elmanantialdebits.blogspot.com.es/2013/08/que-es-eso-de-la-programacion-asincrona.html">
+   asíncrono</a> </h2>
+Esto no funcionaría
+<pre class="prettyprint" style="font-size:75%;border-style:none;">
+
+&lt;script&gt;
+
+   $(function(){
+      let response;
+      $.get( "/get_dni", function(r) {
+          response = r;
+      });
+
+      console.log(response); // undefined
+   });
+
+&lt;/script&gt;
+</pre>
+<footer class="der">
+<a href="https://learn.jquery.com/ajax/key-concepts/">
+Ajax, Key Concepts
+</a>
+</footer>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 630px;
+       line-height:1.6em;
+       margin: auto auto auto 100px;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    //list-style-type: none;
+    padding: 9px;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>

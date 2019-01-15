@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>DAI Práctica 8 - Servicios y bibliotecas de JS</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markup.min.js"></script>
+<style>
+p {
+   font-size: 1em;
+   margin-top: 2em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+	<br />
+	<h2>Diseño de Aplicaciones para Internet (2018-2019)<br />
+ Guión de Prácticas 8: Servicios y bibliotecas de JS</h2>
+	
+<p>
+La idea de esta práctica es usar algas bibliotecas existentes para crear servicios "complejos" como puedan ser incorporación de mapas y geolocalización a nuestra aplicación web o gráficas estadísticas.
+</p>
+
+<br>
+
+<h4>Mapas y geolocalización</h4>
+
+<p>Existen varias bibliotecas para incorporar mapas a nuestra página web. Por ejemplo Google ofrece <a href="https://developers.google.com/maps/documentation/javascript/?hl=es">Google Maps JavaScript API</a> y <a href="https://developers.google.com/maps/documentation/streetview/?hl=es">Google Street View Image API</a> y también es bastante usada OpenStreetMap (mucho más abierta que la de Google) sobre la que se han montado <a href="https://wiki.openstreetmap.org/wiki/Frameworks#Webmaps">varias bibliotecas o frameworks</a>.</p>
+
+
+<p>En esta práctica se pide incorporar alguno de los servicios de mapas anteriormente citados a nuestra página web. Dicho mapa puede mostrar nuestra posición actual, la posición de los restaurantes, puede graficar el área de distintos barrios, calcular rutas para ir de un punto a otro, etc. (cuantas más opciones use nuestro mapa mejor se considerará la práctica).</p>
+
+<p>Una nota: es posible que los datos de los restaurantes de nuestra BD tengan sus coordenadas (latitud y longitud) en el orden cambiado con respecto a alguna de estas bibliotecas (longitud y latitud).</p>
+
+
+<p>&nbsp;</p>
+
+<h4>Gráficas estadísticas (con Highcharts)</h4>
+
+<p>
+   <a href="https://www.highcharts.com/">Highcharts</a> un librería de JavaScript que nos permite integrar gráficas estadísticas
+   (y de otros tipos) en nuestra página web, entre las que encontramos gráficas de tarta, ditribución de puntos,
+   gráficas de barras, tablas dinámicas, gráficas de líneas, líneas temporales, etc.
+</p>
+<p>
+   La manera más habitual de usarla es introduciendo un trozo de código JavaScript en nuestra página.
+   Dicho JavaScript carga algunas bibliotecas, define las series de datos a mostrar, selecciona las opciones para configurar
+   la gráfica y crea un objeto gráfica con un identificador determinado.
+   En el cuerpo de la página web se definirá un objeto <code>&lt;div&gt;</code> con el identificador de la gráfica donde se mostrará la misma.
+</p>
+<p>
+
+   La biblioteca es bastante sencilla de utilizar y tiene una <a href="https://www.highcharts.com/docs">documentación</a> bastante clara.
+</p>
+<p>
+   En este ejercicio vamos a intentar integrar dicha biblioteca en nuestro sitio web. Para ello crearemos alguna página que nos permita
+   visualizar una gráfica con datos de la BD, p.e., número de restaurantes por barrio (o cualquier otra cosa que se nos ocurra).
+</p>
+
+<p>&nbsp;</p>
+
+<h4>Para nota</h4>
+
+<p>
+   Hacer el ejercicio anterior pero obieniendo los datos a través de una llamada AJAX, como en
+   este <a href="https://www.highcharts.com/demo/line-ajax">demo</a>
+</p>
+
+</div>
+<br /><br />
+
+</body>
+</html>

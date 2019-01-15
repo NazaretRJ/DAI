@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> <meta name="template.type" content="DCM"> <meta name="bundle.static" content="in.folder"> <meta name="ad.size" content="width=728,height=90"> <meta name="ad.fileSize" content="150"> <meta name="ad.numFiles" content="15"> <meta name="ad.staticFileSize" content="20"> <meta name="ad.compression" content="60"> <meta name="ad.minifyhtml" content="true"> <meta name="ad.spriteBackgroundColor" content="#FFFFFF"> <title></title> <style type="text/css">abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,del,details,dfn,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:0 0}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}#adRoot,#adRoot #conversation,#adRoot .abs-banner,#adRoot .catch-all,.size-collapsed{height:90px;width:728px}#adRoot .catch-all,.catch-all{background-color:rgba(255,255,255,.01);cursor:pointer;position:absolute;left:0;top:0}.basic-button{cursor:pointer;position:absolute}.hidden{display:none}.shown{display:block}#adRoot,.invisible{opacity:0}#adRoot{position:absolute;overflow:hidden;top:-1px;left:-1px;background-color:#fff;cursor:pointer}#adRoot img{position:absolute}#adRoot #background{position:absolute;width:200px;height:90px;right:0;top:0;background-color:#472344}#adRoot #conversation{position:absolute;top:10px;left:590px}#adRoot #rosie_Photo{background-image:url(./img/collapsed-foreground-sprite.png);background-position:0 -184px;width:102px;height:110px;background-size:728px 380px;position:absolute;top:0;left:-42px}#adRoot #rosie_Chat{background-image:url(./img/collapsed-foreground-sprite.png);background-position:-218px -184px;width:112px;height:52px;background-size:728px 380px;position:absolute;top:15px;left:25px}#adRoot #hands_Photo{background-image:url(./img/collapsed-foreground-sprite.png);background-position:-58px -296px;width:70px;height:60px;background-size:728px 380px;position:absolute;top:112px;left:-50px}#adRoot #hands_Chat{background-image:url(./img/collapsed-foreground-sprite.png);background-position:-104px -184px;width:112px;height:52px;background-size:728px 380px;position:absolute;top:128px;left:25px}#adRoot #balloon_Grp{position:absolute;left:16px;top:202px}#adRoot #balloon_Photo{background-image:url(./img/collapsed-foreground-sprite.png);background-position:-332px -184px;width:52px;height:52px;background-size:728px 380px;position:absolute;top:0;left:0}#adRoot #balloon_String{background-image:url(./img/collapsed-foreground-sprite.png);background-position:0 -296px;width:56px;height:84px;background-size:728px 380px;position:absolute;top:-40px;left:-24px}#adRoot #balloon{background-image:url(./img/collapsed-foreground-sprite.png);background-position:-104px -238px;width:56px;height:56px;background-size:728px 380px;position:absolute;top:100px;left:95px}#adRoot #logo{background-image:url(./img/collapsed-foreground-sprite.png);background-position:0 -92px;width:728px;height:90px;background-size:728px 380px;position:absolute;top:0;left:0}#adRoot #copy{background-image:url(./img/collapsed-foreground-sprite.png);background-position:0 0;width:728px;height:90px;background-size:728px 380px;position:absolute;top:0;left:0}#adRoot .abs-banner{position:absolute}#image-hack{opacity:0;position:absolute;width:1px;height:1px;left:-40px;overflow:hidden}#ad-root-wrapper{position:absolute;overflow:hidden;top:1px;left:1px;background-color:#fff}.wrapper-collapsed{height:88px;width:726px}#background-border{position:absolute;overflow:hidden;top:0;left:0;background-color:#000}</style> <script type="text/javascript">var clickTag = "https://www.google.com";</script> <script type="text/javascript">
+    
+      (function() {
+        var relegateNavigation = '';
+        var handleClickTagMessage = function(e) {
+          try {
+            var eventData = JSON.parse(e.data);
+          } catch (err) {
+            return;
+          }
+          if (eventData.isInitClickTag) {
+            if (eventData.clickTags) {
+              for (var i = 0; i < eventData.clickTags.length; i++) {
+                var clkTag = eventData.clickTags[i];
+                window[clkTag.name] = clkTag.url;
+              }
+            } else if (eventData.clickTag) {
+              window.clickTag = eventData.clickTag;
+            }
+            relegateNavigation = eventData.relegateNavigation;
+          }
+        };
+
+        if (open.call) {
+          window.open = function(open) {
+            return function(url, name, features) {
+              if (relegateNavigation === 'parent') {
+                var message = {'clickTag': url, 'isPostClickTag': true};
+                parent.postMessage(JSON.stringify(message), '*');
+              } else {
+                var args = [url, name];
+                if (features) {
+                  args.push(features);
+                }
+                open.apply(window, args);
+              }
+            };
+          }(window.open);
+        }
+
+        if (window.addEventListener) {
+          window.addEventListener(
+              'message', handleClickTagMessage, false);
+        } else {
+          window.attachEvent('onmessage', handleClickTagMessage);
+        }
+      })();
+    
+  </script></head> <body> <div id="image-hack"></div> <div id="background-border" class="size-collapsed"></div> <div id="ad-root-wrapper" class="wrapper-collapsed"> <div id="adRoot" onclick="window.open(window.clickTag)" style="opacity: 1;"> <div id="background" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"></div> <div id="conversation" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, -184.527, 0.1, 0.9999);"> <div id="rosie_Grp" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"> <div id="rosie_Chat" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999); transform-origin: -5% 50% 0px;"></div> <div id="rosie_Photo" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"></div> </div> <div id="hands_Grp" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"> <div id="hands_Chat" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999); transform-origin: -5% 50% 0px;"></div> <div id="hands_Photo" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999); transform-origin: 39.5% 48% 0px;"></div> </div> <div id="balloon_Grp" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"> <div id="balloon_Photo" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"></div> <div id="balloon_String" style="outline: transparent solid 1px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999); transform-origin: 50% 100% 0px;"></div> </div> </div> <div id="copy" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"></div> <div id="logo" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"></div> <div id="cta" class="abs-banner" style="outline: transparent solid 1px; transform: matrix3d(1, 0.000174533, 0, 0, -0.000174533, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 0.9999);"><!--?xml version="1.0" encoding="utf-8"?--><!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  --><svg version="1.1" xmlns="https://www.w3.org/2000/svg" xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 728 90" style="enable-background:new 0 0 728 90;" xml:space="preserve"><style type="text/css">	.ctaBlue{fill:#30479a;stroke:#30479a;stroke-width:1;stroke-miterlimit:10;}	.ctaWhite{fill:#FFFFFF;}</style><rect class="ctaBlue" x="393" y="27" rx="3" width="111" height="36" data-svg-origin="448.5 45" style="transform-origin: 0px 0px 0px;" transform="matrix(0.99999,0.00017,-0.00017,0.99999,0.007860812639705728,-0.07827733116534574)"></rect><g id="ctaTextGrp" data-svg-origin="408 40" transform="matrix(0.99999,0.00017,-0.00017,0.99999,0.006987531167851557,-0.0712088238850015)">	<path class="ctaWhite" d="M408,44.475c0-2.5,1.609-4.475,4.427-4.475c1.268,0,2.695,0.561,3.573,1.609l-1.647,1.379		c-0.39-0.378-1.024-0.805-1.927-0.805c-1.061,0-2,0.817-2,2.292c0,1.245,0.756,2.305,2.098,2.305c0.451,0,0.829-0.073,1.292-0.28		v-0.805h-1.476v-1.866H416v4.025c-0.78,0.585-2.134,1.049-3.476,1.049C410.012,48.902,408,47.329,408,44.475z"></path>	<path class="ctaWhite" d="M417.553,40.134h5.757v2.061h-3.513v1.305h2.744v2.012h-2.744v1.22h3.767v2.061h-6.011V40.134z"></path>	<path class="ctaWhite" d="M426.763,42.195h-2.194v-2.061h6.695v2.061h-2.196v6.598h-2.306V42.195z"></path>	<path class="ctaWhite" d="M435.22,47.524l1.319-1.609c0.682,0.695,1.439,0.963,1.975,0.963s0.743-0.293,0.743-0.561		c0-0.342-0.169-0.524-1.098-0.83c-1.317-0.451-2.633-1.085-2.633-2.853c0-1.476,1.232-2.586,2.889-2.622		c1.196-0.025,2.257,0.44,3.061,1.159l-1.279,1.646c-0.757-0.585-1.22-0.78-1.648-0.78c-0.414,0-0.609,0.208-0.609,0.512		c0,0.293,0.183,0.524,1.06,0.866c1.537,0.585,2.696,0.963,2.696,2.634c0,2.17-1.817,2.866-3.268,2.866		C437.306,48.914,436.149,48.475,435.22,47.524z"></path>	<path class="ctaWhite" d="M444.785,42.195h-2.194v-2.061h6.695v2.061h-2.196v6.598h-2.306V42.195z"></path>	<path class="ctaWhite" d="M454.435,47.39h-2.781l-0.438,1.402h-2.428l3.148-8.658h2.219l3.134,8.658h-2.414L454.435,47.39z		 M453.837,45.45l-0.78-2.5h-0.024l-0.78,2.5H453.837z"></path>	<path class="ctaWhite" d="M462.758,48.792l-1.636-2.646h-0.536v2.646h-2.243v-8.658h3.463c2.184,0,3.159,1.293,3.159,3.073		c0,1.268-0.55,2.134-1.476,2.573v0.013l1.963,3H462.758z M460.586,44.146h0.708c0.731,0,1.269-0.341,1.269-0.987		c0-0.537-0.428-0.988-1.269-0.988h-0.708V44.146z"></path>	<path class="ctaWhite" d="M468.176,42.195h-2.194v-2.061h6.695v2.061h-2.196v6.598h-2.306V42.195z"></path>	<path class="ctaWhite" d="M473.948,40.134h5.757v2.061h-3.512v1.305h2.743v2.012h-2.743v1.22h3.766v2.061h-6.011V40.134z"></path>	<path class="ctaWhite" d="M481.39,40.134h3.122c2.732,0,4.488,1.78,4.488,4.341c0,2.549-1.646,4.317-4.45,4.317h-3.159V40.134z		 M484.39,46.732c1.319,0,2.184-1.012,2.184-2.257c0-1.292-0.879-2.28-2.012-2.28h-0.926v4.537H484.39z"></path></g><rect id="catchAll" fill="#ffffff" opacity="0" width="728" height="90"></rect><rect id="ctaHit" x="393" y="27" fill="#ffffff" opacity="0" width="111" height="36"></rect></svg></div> </div> </div> <script src="index_data/combined.js"></script> <script type="text/javascript"> try {
+    var dynamicAd = DynamicAd();
+    var dataManager = DataManager();
+    var downloadPreview = false;
+    var previewNumber = 1;
+    var sheetId = "1Z6z5t91qqYrFblYxC6AnHkP8duHGQrSaw9JoovZyBwI";
+    var projectId = "000_Dynamic_Ad_Template";
+    // var previewData = {}; // DO NOT DELETE - REQUIRED FOR AD GENERATOR
+  } catch (err) {
+    console.log('Dynamics Engine Not Included, Proceed as standard');
+  } </script> <script type="text/javascript"> window.clickHandler = function () {
+    return 'Handler is silent';
+  };
+  window.onload = function () {
+    try {
+      DynamicBootloader(window.ad.init);
+    } catch (err) {
+      console.log('Dynamics Engine Not Included, Proceed as standard');
+      window.ad.init()
+    }
+  } </script>   </body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>DAI Práctica 6 - Más Django</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markup.min.js"></script>
+<style>
+p {
+   font-size: 1em;
+   margin-top: 2em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+	<br />
+	<h2>Diseño de Aplicaciones para Internet (2018-2019)<br />
+ Guión de Prácticas 6: Más Django</h2>
+	
+	<h4>Introducción</h4>
+	
+	<p>En esta práctica pretendemos profundizar en un par de aspectos de Django: el uso de sus <strong>Modelos</strong> y el uso de <strong>plugins</strong> o complementos que ya existen para determinadas tareas.</p>
+	
+	<h4>Los modelos de Django</h4>
+	
+	<p>Lo modelos en Django son un tipo especial de objeto que se guarda en la BD. Los modelos definen cada tipo de dato que debe almacenarse en la BD y sus restricciones. En esta práctica vamos a familiarizarnos con la definición y uso de modelos. Siguiendo el <a href="https://tutorial.djangogirls.org/es/django_models/">tutorial de Django Girls</a> crea en la aplicación restaurantes algún modelo. Por ejemplo, puedes crear un modelo que se llame <code>Plato</code> y que tenga algunos campos como por ejemplo <code>nombre</code>, <code>tipoCocina</code> ("Italiana", "Vegetariana", etc), <code>alérgenos</code>, <code>precio</code>... y asigna algunas restricciones (validadores) a cada campo que consideres oportuno (¿precios mayores que 0?).</p>
+	
+	<p>Una ve readao el modelo, aplica los cambios en la base de datos de Django, importa el modelo para que pueda ser accesible desde el administrador (sigue el tutorial de Django girls) y prueba a añadir, borrar y editar objetos del nuevo tipo <code>Plato</code>. Intenta incumplir alguna restricción para que actue el mecanismo de validadores.</p>
+	
+	
+	
+	<h4>Formularios</h4>
+	
+	<p>Django incorpora un mecanismo para manejar los formularios de manera eficiente. En este apartado se pide crear algún formulario que le permita añadir editar o borrar <code>Plato</code>s desde alguna de las páginas de su aplicación. Por supuesto, el formulario debe hacer todas las validaciones que sean pertinentes (evitar campos en blanco, valores incorrectos, etc).</p>
+	
+	
+	<h4>Para nota: Usando modelos soportados por la base de datos de <code>MongoDB</code> (¡actualizado!)</h4>
+	
+	<p>Los modelos que se definen con Django usualmente se guardan en su propia base de datos. Sin embargo, en nuestra aplicación estamos usando información de una base de datos <code>MongoDB</code>. En este apartado de las prácticas (que es opcional) se pide investigar sobre las posibilidades de integrar los datos de la base de datos de <code>MongoDB</code> con un modelo similar a los que ofrece Django: Es decir, ¿podríamos acceder a los restaurantes de nuestra base de datos de igual manera a como accedemos a un objeto del modelo <code>Plato</code> que definimos anteriormente? Pista: <a href="http://mongoengine.org/">MongoEngine</a>.</p>
+	
+	
+	
+	<h4>Autenticación</h4>
+	
+	<p>Ya que Django trae un mecanismo de usuarios y existen plugins para facilitar la creación, autenticación, etc de los mismos, en este apartado se pide adaptar nuestra aplicación para que deje de usar el mecanismo de autenticación que teníamos desarrollado (probablemente era bastante simple) e implemente el plugin <code>django-allauth</code> (<a href="https://django-allauth.readthedocs.io/en/latest/">documentación de django-allauth</a>).</p>
+	
+	<p>Adapta los templates que viene por defecto para que la página de login / registro... se integre bien en tu sitio web. En <a href="https://stackoverflow.com/questions/9437545/overriding-default-templates-of-django-allauth">este foro</a> dan algunas pistas sobre como hacerlo.</p>
+	
+</div>
+<br /><br />
+
+</body>
+</html>

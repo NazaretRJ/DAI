@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>DAI, Servicios Web</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>Servicios Web</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+
+
+
+<section>
+<h2>Servicios Web</h2>
+
+<p>
+Son un conjunto de protocolos y estandares para comunicar aplicaciones
+y intercambiar datos en internet
+</p>
+<p>
+Se usa http y el puerto 80 para evitar problemas con los firewall
+</p>
+<p>
+
+La interface puede ser:
+<ul>
+<li><strong>REST</strong>, &nbsp; más simple</li>
+<li>o &nbsp; <strong>SOAP</strong>, &nbsp; <strong>WSDL</strong> &nbsp; de nivel m&aacute;s alto</li>
+</ul>
+</p>
+
+<footer class="der">
+<a href="http://en.wikipedia.org/wiki/Servicio_web" >
+Servicios Web</a>
+</footer>
+</section>
+
+
+
+
+<section>
+<h2><strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer</h2>
+<br>
+<p>
+Este t&eacute;rmino se usa ahora para referirse a interfaces simples, que solo usan
+<code>&nbsp;HTTP&nbsp;</code> y <code>&nbsp;JSON o XML&nbsp;</code> en la respuesta
+</p>
+
+<p>
+Se basan en una sintaxis universal para acceder a los recursos en internet: &nbsp;
+las &nbsp; <a href="http://en.wikipedia.org/wiki/Uniform_resource_identifier">
+<strong>U</strong>niform <strong>R</strong>esource <strong>I</strong>dentifier</a>
+</p>
+
+<p>
+En las <code>&nbsp;URIs&nbsp;</code> se usa <a href="http://en.wikipedia.org/wiki/Percent-encoding">&nbsp;C&oacute;digo
+tanto por ciento</a>
+</p>
+
+<footer class="der">
+<a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" >
+REST</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2><strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer</h2>
+<br>
+<p>
+Es un protocolo &nbsp;<b>sin estado</b>
+</p>
+<p>
+La llamada (usualmente <b>GET</b>):
+</p>
+<pre  class="prettyprint" style="border-style:none;">
+
+http://servidor/.../funcion?par1=valor1&par2=valor2
+
+</pre>
+<p>
+que se hace desde un navegador o desde un servidor
+</p>
+
+<p>
+y la respuesta es <code>&nbsp;XML</code>, <code>&nbsp;JSON&nbsp;</code> o <code>&nbsp;HTML</code>
+</p>
+
+<footer class="der">
+<a href="http://www.w3schools.com/xml/default.asp">
+XML</a>
+&nbsp;&nbsp;
+<a href="http://www.w3schools.com/js/js_json_intro.asp">
+JSON</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer</h2>
+<br>
+
+Para hacer llamadas desde un servidor se puede usar la librería <strong>request</strong>
+
+<pre class="prettyprint" style="width:700px;height:280px;font-size:75%;border-style:none;">
+
+import request
+r = requests.get("http://www.google.es/search?q=dai")
+
+# lo mismo
+r = requests.get("http://www.google.es/", params={'q':'dai'})
+
+# la respuesta
+print (r.text)
+</pre>
+
+<footer class="der">
+<a href="http://docs.python-requests.org/en/latest/user/quickstart/">
+request</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+<br><br>
+<p style="line-height:200%">
+En su versión mas extendida, se usan los &nbsp;
+<a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">verbos de HTTP</a> &nbsp;
+para las llamadas del cliente al servidor, asociadolos a operaciones &nbsp;
+<a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+</p>
+
+
+<footer class="der">Aquí lo cuentan:
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+Un servicio <strong>REST</strong>full, debe seguir 4 principios:
+<ul style="margin-left:10%">
+<li> Usar los verbos de HTTP explícitamente</li>
+<li> Ser completamente sin estado</li>
+<li> Usar URIs estilo path </li>
+<li> Devolver XML o JSON</li>
+</ul>
+
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Usar los verbos de HTTP explícitamente</b> con llamadas AJAX:
+<br><br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+GET: para requerir un recurso (Read,  SELECT)
+
+POST: para crear un recurso (Write, INSERT)
+
+PUT: para cambiar el estado de  un recurso (Write, UPDATE)
+
+DELETE: para borrar un recurso (DELETE)
+</pre>
+
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Usar los verbos de HTTP explícitamente</b>
+<br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+
+# en lugar de:
+GET /add_restaurants?name=Bar Pepe HTTP/1.1
+
+# usamos:
+POST /restaurants HTTP/1.1
+Host: myserver
+...
+name=Bar Pepe
+</pre>
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Usar los verbos de HTTP explícitamente</b>
+<br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+
+# en lugar de:
+GET /delete_restaurant?name=Bar Pepe HTTP/1.1
+
+# usamos:
+DELETE /restaurants HTTP/1.1
+Host: myserver
+...
+name=Bar Pepe
+</pre>
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+
+
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Ser completamente sin estado</b>,
+<br>
+para que el resultado de la llamada no dependa
+de las anteriores (sea <strong>idempotente</strong>)
+
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+
+# Con estado:
+GET /resultados?pag=pagina_siguente
+
+# Sin estado:
+GET /resultados?pag=2
+</pre>
+
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Usar URIs estilo path</b>
+<br>
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+
+# en lugar de:
+GET /data_restaurant?name=Bar Pepe HTTP/1.1
+
+# mejor:
+GET /restaurants/Bar-Pepe HTTP/1.1
+</pre>
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+<section>
+<h2><strong>RE</strong><strong>S</strong><strong>T</strong>full</h2>
+
+<p style="line-height:200%">
+<b>Usar URIs estilo path</b>,
+<br>
+
+Que se puedan leer por humanos (SEO) y que muestren una jerquia,
+substituyendo espacios en blanco por guiones o subrayados
+
+<pre class="prettyprint" style="width:700px;height:280px;font-size:90%;border-style:none;">
+
+GET /restaurants/Bar-Pepe/cousine/
+
+GET /restaurants/Bar-Pepe/address/
+
+</pre>
+
+</p>
+
+
+<footer class="der">
+<a href="http://www.ibm.com/developerworks/library/ws-restful/index.html">
+RESTful Web services: The basics</a>
+</footer>
+</section>
+
+
+
+<!-- <section>
+<h2><strong>R</strong>ich <strong>S</strong>ite <strong>S</strong>ummary</h2>
+<br>
+<p>
+Sirve para ofrecer servicios de subscripci&oacute;n a p&aacute;ginas de noticias, foros,
+blogs, etc
+</p>
+
+<p>
+Se usan directamente 'subscribiendose' desde los navegadores o gestores de correo, o con programas especializados ('agregadores')
+</p>
+
+<footer class="der">
+<a href="http://en.wikipedia.org/wiki/RSS" >
+RSS</a>
+</footer>
+</section> -->
+
+
+<!-- <section>
+<h2> <strong>R</strong>ich <strong>S</strong>ite <strong>S</strong>ummary</h2>
+<br>
+Las noticias de la escuela
+<br>
+<pre class="prettyprint" style="font-size:70%;border-style:none;width:700px;height:300px;overflow:scroll">
+from lxml import etree
+
+rss = etree.parse ('http://etsiit.ugr.es/pages/tablon/*/rss')
+
+# Findall admite un suconjunto de XPATH
+noticias = rss.findall('//item/title')
+
+for n in noticias:
+	print t.text
+</pre>
+<footer class="der">
+<a href="http://www.pythonforbeginners.com/feedparser/using-feedparser-in-python" >
+Otro parser: feedparser</a>
+</footer>
+</section> -->
+
+
+<!--
+<section>
+<h2>APIS de  &nbsp;<strong>Google Maps</strong> &nbsp;</h2>
+<br>
+Google ofrece, de momento,
+<a href="https://developers.google.com/maps/documentation/webservices/?hl=es">&nbsp;APIs&nbsp;</a> de google maps sin registrarse,
+
+
+<br>
+<pre class="prettyprint" style="font-size:65%;border-style:none;width:700px;overflow:scroll">
+
+import requests
+import json
+
+# texto urlizado   <a href="http://es.wikipedia.org/wiki/C%C3%B3digo_porciento">http://es.wikipedia.org/wiki/C%C3%B3digo_porciento</a>
+r = requests.get ('http://maps.googleapis.com/maps/api/geocode/json?address=Sagrada+Familia+1+Granada')
+
+# responde json o xml
+respuesta = json.loads (r.text)
+</pre>
+<footer class="der">
+<a href="https://developers.google.com/maps/documentation/geocoding/?hl=es" >
+El API de codificaci&oacute;n geogr&aacute;fica de Google</a>
+</footer>
+</section>
+
+<section>
+<h2><strong>Google Maps</strong>: &nbsp; Generaci&oacute;n de im&aacute;genes</h2>
+<br>
+Y sacar im&aacute;genes de mapas o de Street view, a partir de coordenadas geogr&aacute;ficas
+<br><br>
+<pre class="prettyprint" style="font-size:65%;border-style:none;width:700px;height:140px;overflow:scroll">
+import requests
+
+# texto urlizado   <a href="http://es.wikipedia.org/wiki/C%C3%B3digo_porciento">http://es.wikipedia.org/wiki/C%C3%B3digo_porciento</a>
+r = requests.get ('http://maps.googleapis.com/maps/api/staticmap?center=37.19394578029149,%20-3.622503819708498&zoom=16&size=400x400')
+
+</pre>
+<br>
+<div>
+Y tambi&eacute;n con <a href="https://developers.google.com/maps/documentation/javascript/examples/">&nbsp;Javascript</a>
+</div>
+
+<footer class="der">
+<a href="https://developers.google.com/maps/documentation/imageapis/?hl=es" >
+API de im&aacute;genes de Google Maps</a>
+</footer>
+</section>
+
+<section>
+<h2><strong>Youtube</strong>, &nbsp; <strong>Google Custom Search</strong></h2>
+<br>
+Son gratis, de momento, pero necesitan tener cuenta en google, y
+registrar la aplicaci&oacute;n en <a href="https://code.google.com/apis/console">Goolgle API Console</a>
+para obtener claves
+
+<br><br>
+<pre class="prettyprint" style="font-size:100%;border-style:none;width:700px;height:240px;">
+
+<a href="https://developers.google.com/custom-search/json-api/v1/using_rest">Custom Search Engine Search API</a>
+
+<a href="https://developers.google.com/youtube/v3/getting-started">Youtube API</a>
+
+</pre>
+<footer class="der">
+<a href="http://developers.google.com/apis-explorer/#p/" >
+APIS explorer</a>
+, &nbsp;
+<a href="http://code.google.com/apis/ajax/playground/">
+Playground</a>
+</footer>
+</section>
+
+<section>
+<h2><strong>TWITTER</strong></h2>
+
+<a href="https://twitter.com/search-home">Tweeter Search</a> tiene una API registrando la aplicaci&oacute;n
+en <a href="https://apps.twitter.com/">apps.twitter.com</a>
+<pre class="prettyprint" style="font-size:70%;border-style:none;width:700px;height:380px;overflow:scroll">
+import tweepy
+
+# Claves para oauth
+consumer_key = '---'
+consumer_secret = '---'
+access_token = '---'
+access_token_secret = '---'
+
+# Hay que estar autorizado y auntenticado
+# http://tweepy.readthedocs.org/en/v2.3.0/auth_tutorial.html
+
+# Para la aplicaci&oacute;n
+auth = tweepy.OAuthHandler (consumer_key, consumer_secret)
+# Para mi cuenta
+auth.set_access_token (access_token, access_token_secret)
+
+
+api = tweepy.API (auth)
+
+tweets = api.search (q='Granada', count=10)
+# Devuelve
+# <a href="https://dev.twitter.com/docs/platform-objects/tweets">https://dev.twitter.com/docs/platform-objects/tweets</a>
+
+for tweet in tweets:
+	print tweet.text
+
+</pre>
+<footer class="der">
+<a href="https://dev.twitter.com/docs/api/1.1/get/search/tweets" >
+GET search/tweets</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2><strong>TWITTER</strong> APIS</h2>
+
+
+M&aacute;s <a href="https://dev.twitter.com/rest/public">&nbsp;REST APIs de Twitter</a>,
+que se pueden usar desde <a href="http://www.tweepy.org/">
+&nbsp;tweepy&nbsp;</a>, un wrapper para las API twitter
+
+<pre class="prettyprint" style="font-size:70%;border-style:none;width:700px;height:380px">
+# Una vez autorizados y autenticados
+
+# Los followers
+users = api.followers ('@CanalUGR')
+# <a href="https://dev.twitter.com/docs/platform-objects/users">https://dev.twitter.com/docs/platform-objects/users</a>
+
+# Los últimos mensajes
+tweets = api.user_timeline ('@CanalUGR')
+# <a href="https://dev.twitter.com/docs/platform-objects/tweets">https://dev.twitter.com/docs/platform-objects/tweets</a>
+
+# Mandando un tweet desde mi cuenta
+# si la aplicci&oacute;n es de Lectura / Escritura
+api.update_status('Hola hola')
+
+</pre>
+
+</section>
+
+<section>
+<h2>Traducción Automática</h2>
+<br>
+MyMemory.translated.net ofrece un servicio de traducci&oacute;n autom&aacute;tica limitado, gratuito
+(el de google es de pago)
+
+<br>
+<pre class="prettyprint" style="font-size:70%;border-style:none;width:700px;height:300px;overflow:scroll">
+import requests
+import json
+
+# texto urlizado   <a href="http://es.wikipedia.org/wiki/C%C3%B3digo_porciento">http://es.wikipedia.org/wiki/C%C3%B3digo_porciento</a>
+r = requests.get ('http://api.mymemory.translated.net/get?q=el%20gato%20come%20chuches&langpair=es|en')
+
+# responde json
+respuesta = json.loads (r.text)
+
+print respuesta['responseData']['translatedText']
+
+</pre>
+<footer class="der">
+<a href="http://www.microsoft.com/web/post/using-the-free-bing-translation-apis" >
+Otro servicio de traducción</a>, &nbsp;&nbsp;
+
+<a href="http://mymemory.translated.net/doc/spec.php" >
+MyMemory: API technical specifications</a>
+</footer>
+</section>
+-->
+
+<!-- <section>
+<h2><strong>AEMET</strong>, datos y predicciones meteorolo&oacute;gicas</h2>
+<br>
+<br>
+<a href="http://www.aemet.es">AEMET</a> &nbsp; ofrece un servicio para el tiempo
+<br>
+
+<a href="http://www.aemet.es/es/eltiempo/observacion/ultimosdatos?k=and&l=5530E&w=0&datos=det&x=h24&f=temperatura">Datos</a>
+<br>
+<a href="http://www.aemet.es/es/eltiempo/prediccion/municipios/granada-id18087">Predicciones</a>
+<br>
+y m&aacute;s apis &nbsp;<a href="http://espanol.wunderground.com/weather/api/">
+http://espanol.wunderground.com/weather/api/</a>
+<pre class="prettyprint" style="position:absolute;left:-10%;bottom:60px;font-size:60%;border-style:none">
+# Ejercicio: Temperatura actual en Granada leida en http://www.eltiempo.es/Granada.html
+# con una sola instrucci&oacute;n xpath
+</pre>
+</section> -->
+
+
+<!-- <section>
+<h2>Más apis</h2>
+<br>
+
+<pre class="prettyprint" style="font-size:110%;border-style:none;width:700px;height:420px;">
+
+
+<a href="http://www.programmableweb.com/">http://www.programmableweb.com/</a>
+
+</pre>
+<footer class="der">
+<a href="" >
+</a>
+</footer>
+</section> -->
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 630px;
+       line-height:1.6em;
+       margin: auto auto auto 100px;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    //list-style-type: none;
+    padding: 9px;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>

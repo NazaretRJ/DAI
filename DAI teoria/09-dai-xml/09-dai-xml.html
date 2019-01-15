@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8"/>
+<title>DAI, XML</title>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<section>
+    <h1>D<span style="font-size: 0.6em;">esarrollo de</span> A<span style="font-size: 0.6em;">plicaciones para </span> I<span style="font-size: 0.6em;">nternet</span></h1>
+
+    <h2>XML a fondo</h2>
+
+    <p><center><img src="./imagenes/web-app-dev.jpg" width="70%" /></center><p>
+
+    <footer><a href="https://swad.ugr.es/?CrsCod=7257">
+    Desarrollo de Aplicaciones para Internet</a></footer>
+</section>
+
+
+
+<section>
+<h2>e<strong>X</strong>tensible <strong>M</strong>arkup
+<strong>L</strong>anguage</h2>
+<br>
+<p>
+Es un metalenguaje de prop&oacute;sito general para intercambio y almacenamiento
+de informaci&oacute;n.
+</p>
+
+<p>Es un subcojunto simplificado del
+   <a href="https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language">SGML</a>,
+   dise&ntilde;ado para que sea legible
+tambi&eacute;n por personas.</p>
+
+<footer class="der">
+<a href="http://en.wikipedia.org/wiki/XML">XML</a>
+</footer>
+
+</section>
+
+<section>
+<p><center><img src="imagenes/sgml-xml-relationships.png"></center></p>
+<footer class="der">
+<a href="http://cscie12.dce.harvard.edu/lecture_notes/2007-08/20080130/slide26.html" >SGML-XML</a>
+</footer>
+</section>
+
+<section>
+<h2>Uso del XML</h2>
+
+<p>Tiene un uso muy amplio, sobre todo en internet:</p>
+
+<table>
+<tr style="font-size:80%">
+<td><ul style="list-style-type: none;color:darkslategray">
+<li><code>XHTML</code></li>
+<li><code>RSS</code></li>
+<li><code>Standarized Vector Graphic</code></li>
+<li><code>MathML</code></li>
+<li><code>Open Document Format</code></li>
+</ul></td>
+
+<td><ul style="list-style-type: none;color:darkslategray">
+<li><code>Office Open Format</code></li>
+<li><code>Web Services Description Language</code></li>
+<li><code>Simple Object Access Protocol</code></li>
+<li><code>XML-RPC</code></li>
+<li>...</li>
+</ul></td>
+</tr>
+</table>
+
+</section>
+
+<!--
+<section>
+<h2>Web Sem&aacute;ntica</h2>
+
+<p>Tambi&eacute;n se usa en la web sem&aacute;ntica para especificar significados:</p>
+
+<br>
+<p><center><img src="imagenes/eje_geotag.png" style="width: 80%;"></center></p>
+
+
+<footer class="der">
+<a href="http://www.flickr.com/map" >flickr</a>
+</footer>
+</section>
+-->
+
+
+
+<section>
+<h2>Niveles de XML</h2>
+<p>
+Hay dos niveles de restricci&oacute;n en los archivos XML:
+</p>
+<table border="0" style="font-size:80%">
+<colgroup>
+<col width="25%">
+<col width="75%">
+</colgroup>
+
+<br>
+<tbody valign="top">
+<tr><td style="color:blue;text-align:right"><tt><b>V&aacute;lidos</b></tt></td>
+<td>Cumplen con la sint&aacute;xis del XML</td>
+</tr>
+<tr><td><tt><b>&nbsp;</b></tt></td>
+<td></td>
+</tr>
+<tr><td style="color:blue;text-align:right"><tt><b>Bien formados</b></tt></td>
+<td>Que adem&aacute;s tengan una especificaci&oacute;n propia para sus elementos
+(que se puedan validar con un <code>DTD</code> o un <code>XML Schema</code>)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section>
+<h2>XML bien formado</h2>
+<p>En un archivo XML bien formado nos podemos encontrar:</p>
+
+<table>
+<tr>
+<td><ul>
+<li>Pr&oacute;logo</li>
+<li>Elementos</li>
+<li>Atributos</li>
+<li>Referencias a caracteres</li>
+</ul></td>
+
+<td><ul>
+<li>Entidades predefinidas</li>
+<li>Comentarios</li>
+<li>Secciones CDATA (character data)</li>
+<li>Instrucciones de procesamiento</li>
+</ul></td>
+</tr>
+</table>
+
+</section>
+
+
+<section>
+<h2>Pr&oacute;logo</h2>
+<p>
+Un documento XML comienza por una etiqueta inicial y
+quiz&aacute;s con una declaraci&oacute;n de un DTD o esquema.
+</p>
+<br><br>
+<pre  class="prettyprint" style="border-style:none;">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+&lt;!DOCTYPE xxx  PUBLIC "http://..."&gt;
+</pre>
+<br>
+<p>
+UTF-8 es la codificaci&oacute;n por defecto, si se usa otra hay que ponerla.
+</p>
+</section>
+
+
+
+<section>
+<h2>Elementos</h2>
+<p>Delimitados por etiquetas de principio y fin,
+excepto si son vacios, en cuyo caso solo contienen la
+etiqueta con autocierre &nbsp; <code>&lt;.../&gt;</code></p>
+<p>Los elementos se estructuran en un árbol.</p>
+<p>Siempre hay un elemento raíz que
+  incluye a todos los dem&aacute;s:</p>
+  <br/>
+
+<pre class="prettyprint"  style="border-style:none;">
+&lt;raiz&gt;
+   &lt;elemento_1&gt; texto &lt;/elemento_1&gt;
+   &lt;elemento_2&gt; texto &lt;/elemento_2&gt;
+   &lt;elemento-vacio/&gt;
+&lt;/raiz&gt;
+</pre>
+</section>
+
+
+<section>
+<h2>Atributos</h2>
+<p>Los atributos van en la etiqueta de apertura. Es obligatorio que
+tengan un valor entre comillas (simples o dobles).</p>
+<br><br>
+<pre class="prettyprint" style="border-style:none;">
+&lt;root&gt;
+   &lt;elemento_1 atributo="valor"&gt; texto &lt;/elemento_1&gt;
+   &lt;elemento_2&gt; texto &lt;/elemento_2&gt;
+   &lt;elemento-vacio/&gt;
+&lt;/root&gt;
+</pre>
+</section>
+
+
+<section>
+<h2>Referencias a entidades car&aacute;cter</h2>
+<p>
+En XML se puede poner cualquier signo en la codificaci&oacute;n que se
+use, normalmente UTF-8, o con su c&oacute;digo num&eacute;rico UNICODE, o con
+referencia a <i>entidades predefinidas</i>:
+</p>
+<br>
+
+<pre class="prettyprint"  style="border-style:none;">
+&amp;#NNNN;   Notaci&oacute;n decimal
+
+&amp;#xNNNN;  Notaci&oacute;n hexadecimal
+
+&referencia_a_entidad_caracter;
+</pre>
+
+<footer class="der">
+<a href="http://dev.w3.org/html5/html-author/charref" >
+Character Entities Referece chart</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Caracteres reservados</h2>
+<p>En XML est&aacute;n reservados los caracteres:</p>
+<br>
+<pre>
+         <strong>&amp;</strong> &nbsp; &rarr; &nbsp; &amp;amp;<br>
+         <strong>&lt;</strong> &nbsp; &rarr; &nbsp; &amp;lt;<br>
+         <strong>&gt;</strong> &nbsp; &rarr; &nbsp; &amp;gt;<br>
+         <strong>&quot;</strong> &nbsp; &rarr; &nbsp; &amp;quot;<br>
+         <strong>&apos;</strong> &nbsp; &rarr; &nbsp; &amp;apos;
+</pre>
+</section>
+
+
+<section>
+<h2>Comentarios, &nbsp; secciones CDATA</h2>
+<p>Comentarios:</p>
+<br/>
+<pre class="prettyprint" style="border-style:none;">
+&lt;!-- Comentario --&gt;
+</pre>
+
+<p>Las secciones CDATA sirven para incluir texto que el
+parser no va a procesar:</p>
+<br>
+<pre class="prettyprint" style="border-style:none;">
+&lt;![CDATA[
+ ...
+]]&gt;
+</pre>
+
+</section>
+
+
+<section>
+<h2>Instrucciones de procesamiento</h2>
+<br>
+<p>Se utilizan para poner indicaciones para las aplicaciones que
+procesen el archivo XML.</p>
+<p>La sintaxis es: &nbsp; <code>&lt;?target instruction ?&gt;</code>.</p>
+<br>
+
+<pre class="prettyprint" style="border-style:none;">
+&lt;?xml-stylesheet href="es.css" type="text/css"&gt;
+</pre>
+<br>
+p.e. se pueden aplicar hojas de estilo a documentos xml
+</section>
+
+
+<section>
+<h2>Reglas para XMLs bien formados</h2>
+<ul>
+
+<li>Siempre tiene que haber un solo elemento raiz.</li>
+
+<li>Los elementos no vacios tienen etiqueta de inicio y de fin:<br/>
+  <code>&lt;x&gt; ... &lt;/x&gt;</code></li>
+
+<li>Elementos vacios con marca de autocierrre:
+  <code>&lt;x/&gt;</code></li>
+
+<li>Los elementos no se pueden cruzar:<br />
+  <code>&lt;a&gt; &lt;b&gt;...&lt;/b&gt; &lt;/a&gt;   o   &lt;a&gt;...&lt;/a&gt; &lt;b&gt;...&lt;/b&gt;</code></li>
+
+<li>El valor de los atributos se delimita con comillas.</li>
+
+</pre>
+<footer class="der">
+<a href="http://es.wikipedia.org/wiki/XHTML#Diferencias_entre_HTML_y_XHTML" >
+Diferencias entre HTML y XHTML</a>
+</footer>
+</section>
+
+
+<section>
+<h2>DTDs y XML Schemmas</h2>
+
+<p>Un <code><strong>&nbsp;DTD&nbsp;</strong></code> (Document Type Definition) o un
+<code><strong>&nbsp;XML Schemma &nbsp;</strong></code>
+son declaraci&oacute;nes de la sintaxis para un lenguaje XML particular, con las definiciones de los elementos y los atributos.</p><br>
+<table style="width: 100%">
+<tr>
+<td>Ejemplo de <a href="http://www.w3schools.com/xml/xml_dtd.asp">DTD</a>.</td>
+<td>Ejemplo de <a href="http://www.w3schools.com/xml/xml_schema.asp">Schemma</a>.</td>
+<td><a href="https://stackoverflow.com/questions/1544200/what-is-difference-between-xml-schema-and-dtd">Comparaci&oacute;n</a>.</td>
+</tr>
+</table>
+<br /><br/>
+<p>Para que un documento XML sea <b>v&aacute;lido</b>, tiene que tener una referencia a un DTD o a un
+Schemma.</p>
+
+</section>
+
+<section>
+<h2>Espacios de Nombres</h2>
+<br><br>
+<p>
+A veces puede haber interferencia cuando se usa en un mismo documento
+distintos lenguajes XML. Para distinguir los elementos de cada uno
+se usan los <strong>&nbsp;Espacios de nombres</strong>.
+</p>
+
+<footer class="der">
+<a href="http://es.wikipedia.org/wiki/Espacio_de_nombres_XML" >
+Espacio de nombres XML</a>
+</footer>
+</section>
+
+
+
+
+<section>
+<h2>Procesado de archivos XML</h2>
+
+<p>Hay 3 maneras (como mínimo) de procesar archivos XML (o HTML):</p>
+
+<ul>
+<li>Usando <code><b>&nbsp;expresiones regulares</b></code></li>
+
+<li>Con parsers <code><b>&nbsp;<a href="https://en.wikipedia.org/wiki/Simple_API_for_XML">SAX</a></b></code></li>
+
+<li>Con parsers <code><b>&nbsp;<a href="https://en.wikipedia.org/wiki/Document_Object_Model">DOM</a></b></code></li>
+</ul>
+
+<p>Las librer&iacute;as para SAX y DOM son estándar y existen
+con las mismas funciones para C, C++, PHP, Java, Perl, etc.</p>
+
+</section>
+
+<section>
+<h2>Expresiones regulares</h2>
+<pre class="prettyprint" style="font-size:70%;border-style:none;width:700px;height:400px;overflow:scroll;">
+import re
+
+# 'portada.xml' es un rss en
+# http://ep00.epimg.net/rss/elpais/portada.xml
+
+file = open('portada.xml', encoding='utf-8')
+contenido = file.read()
+file.close()
+
+parser = re.compile('&lt;.+?&gt;|[^&lt;&gt;]*', re.S)
+
+for e in parser.findall(contenido):
+	print("[%s]" % e.replace ('\n', '\\n'))
+
+	if e.find('&lt;/') &gt;= 0:
+		print("etiqueta final")
+
+	elif e.find('&lt;') &gt;= 0:
+		print("etiqueta inicial")
+	else:
+		print("texto")
+</pre>
+</section>
+
+
+<section>
+<h2>Biblioteca de eventos: <strong>SAX</strong></h2>
+<br><br>
+<p>
+<strong>S</strong>imple <strong>A</strong>pi para <strong>X</strong>ml es una
+libreria basada en eventos: se va leyendo el archivo y se generan llamadas a funciones
+conforme se leen las etiquetas.
+</p>
+
+<footer class="der">
+<a href="http://hp.fciencias.unam.mx/~alg/xmlbd/sax.pdf" >
+SAX Parser</a>,
+<a href="https://www.youtube.com/watch?v=-UAH39D3JKU">Python Parsing large xml files</a>
+</footer>
+</section>
+
+
+<section>
+<h2>Sax parser</h2>
+<pre class="prettyprint" style="font-size:70%;width:850px;border-style:none;height:420px;overflow:scroll;">
+# etree sax parser
+from lxml import etree
+
+class ParseRssNews():           # manejadores de eventos
+
+	def __init__(self):
+		print('--------------------- Principio del archivo')
+
+	def start(self, tag, attrib):          # Etiquetas de inicio
+		print('&lt;%s&gt;' % tag)
+		for k in attrib:
+			print('%s = "%s"' % (k,attrib[k]))
+
+	def end(self, tag):                    # Etiquetas de fin
+		print('&lt;/%s&gt;' % tag)
+
+	def data(self, data):                  # texto
+		print('-%s-' % data)
+
+	def close(self):
+		print('---------------------- Fin del archivo')
+
+
+parser = etree.XMLParser(target=ParseRssNews())
+url = 'http://ep00.epimg.net/rss/elpais/portada.xml'
+etree.parse(url, parser)
+
+</pre>
+<footer class="der">
+<a href="http://lxml.de/parsing.html" >
+Parsing XML and HTML with lxml</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2>Manejo din&aacute;mico del árbol: <strong>DOM</strong></h2>
+<br><br>
+<p>
+<strong>D</strong>ocument <strong>O</strong>bject <strong>M</strong>odel es una
+API para manejar la estructura de árbol de un documento XML: se lee todo
+el archivo en memoria y se accede a cada nodo del árbol para leerlo, modificarlo,
+ampliarlo, etc.
+</p>
+
+<footer class="der">
+<a href="http://www.w3.org/TR/DOM-Level-2-Core/introduction.html" >
+What is the Document Object Model?</a>
+</footer>
+</section>
+
+
+
+<section>
+<h2>Árbol DOM</h2>
+<p><center><img src="imagenes/dom1.png"></center></p>
+<p><center><img src="imagenes/dom2.png"></center></p>
+</section>
+
+<section>
+<h2>DOM Parser</h2>
+<pre class="prettyprint" style="font-size:70%;width:750px;border-style:none;height:420px;overflow:scroll;">
+import xml.dom.minidom
+
+# parse file into a dom
+file = open('portada.xml', encoding='utf-8')
+dom = xml.dom.minidom.parse(file)
+file.close()
+
+lista_items = dom.getElementsByTagName('item')
+
+for item in lista_items:
+    item.setAttribute('modificado', 'hoy')
+    otro_elemento = dom.createElement('otro')
+    texto = dom.createTextNode('Un texto que ponemos en el elemento')
+    otro_elemento.appendChild(texto)
+    item.appendChild(otro_elemento)
+
+print(dom.toxml())
+</pre>
+<footer class="der">
+<a href="http://docs.python.org/3.3/library/xml.dom.minidom.html" >
+ xml.dom.minidom </a> &nbsp;&nbsp;&nbsp;
+<a href="http://www.w3schools.com/js/js_htmldom.asp" >
+JavaScript HTML DOM</a>
+</footer>
+</section>
+
+
+<section>
+<h2>lxml etree parser</h2>
+
+El m&oacute;dulo <code>lxml</code> tiene un API m&aacute;s sencillo y adaptado a python
+que el DOM usual: el <strong>etree</strong>
+
+<pre class="prettyprint" style="font-size:70%;width:760px;border-style:none;height:320px;overflow:scroll;">
+from lxml import etree
+file = open ('portada.xml', encoding='utf-8')
+tree = etree.parse(file)
+file.close()
+
+rss = tree.getroot() # elemento raiz
+
+# Los elementos funcionan como listas
+channel = rss[0]     # Primer hijo
+
+for e in  channel:
+	if (e.tag == 'item'):  # Atributo tag, nobre del elemento
+		# Añado <item modificado="hoy">
+		e.set('modificado', 'hoy')
+
+		# Los atributos del xml funcionan casi como diccionarios
+		print (e.keys(), e.get('modificado'))
+
+		# Creo otro elemento
+		otro = etree.Element('otro')   # <otro></otro>
+
+		# Atributo text
+		otro.text = 'Texto de otro'
+		e.insert(0, otro) # Añado <otro>Texto de otro</otro> (posicion inicial)
+
+print(etree.tounicode(rss, pretty_print=True))
+</pre>
+<footer class="der">
+<a href="http://lxml.de/tutorial.html" >
+The lxml.etree Tutorial</a>
+</footer>
+</section>
+
+
+<section>
+<h2>lxml etree iterparser</h2>
+
+<p>Ejemplo de como recorrer un archivo con <code>lxml etree iterparser</code> (en lugar de SAX):</p>
+<br/>
+<pre class="prettyprint" style="font-size:70%;width:760px;border-style:none;height:260px;overflow:scroll;">
+# etree iterparse
+
+from lxml import etree
+
+context = etree.iterparse ('portada.xml', events=('start','end'))
+
+for action, element in context:
+	text = ""
+
+	if (element.text != None):
+		text = element.text.encode('utf-8')
+
+	print ('%s - %s - %s' % (action, element.tag, text))
+</pre>
+<footer class="der">
+<a href="http://lxml.de/parsing.html#iterparse-and-iterwalk" >
+iterparse and iterwalk</a>
+</footer>
+</section>
+
+
+<section>
+<h2>XPATH</h2>
+<p><code>XPATH</code> es un minilenguaje para especificar partes de un árbol DOM:</p>
+<pre class="prettyprint" style="font-size:75%;width:750px;border-style:none;height:360px;overflow:scroll;">
+from lxml import etree
+
+file = open('portada.xml', encoding='latin-1')
+tree = etree.parse(file)
+file.close()
+
+items = tree.xpath('/rss/channel/item')
+
+for i in items:
+	categorys = i.xpath('category')
+	for c in categorys:
+		print(c.text)      # Textos en category
+
+for url in tree.xpath('//@url'):
+	print(url)                 # Todos los atributos url
+
+for t in tree.xpath('//text()'):
+	print(t)                   # Todos los textos
+
+</pre>
+<footer class="der">
+<a href="http://www.mclibre.org/consultar/xml/lecciones/xml_xpath.html" >
+XPath: XML Path language</a>, &nbsp;&nbsp;
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Introduction_to_using_XPath_in_JavaScript">JavaScript</a>
+</footer>
+</section>
+
+<section>
+<h2>Soporte para HTML</h2>
+
+<p><code>lxml</code> &nbsp; tambi&eacute;n tiene soporte para archivos <code>html</code>.</p><br/>
+
+<pre class="prettyprint" style="font-size:75%;width:850px;border-style:none;height:300px;">
+from lxml import etree
+
+parser = etree.HTMLParser()
+tree = etree.parse('http://www.ugr.es', parser)
+
+# Todos los enlaces
+urls=tree.xpath('//@href')
+
+for u in urls:
+	print(u)
+</pre>
+<footer class="der">
+<a href="http://lxml.de/parsing.html#parsing-html" >
+Parsing html</a>
+</footer>
+
+
+</section>
+
+
+<section>
+<h2>Creaci&oacute;n de XML </h2>
+
+<p>Con <code>E-Factory</code> se pueden crear el arboles XML:</p>
+<pre class="prettyprint" style="font-size:60%;width:800px;border-style:none;height:360px;overflow:scroll;">
+from lxml import etree
+from lxml.builder import E
+
+page = (
+		E.html(       # crea un elemento html
+			E.head(
+				E.title("Prueba")
+			),
+		E.body(
+			E.h1("Hola!", {'class':'title'}),
+			E.p("Esto es un párrafo con", E.b ("negrita"), " y más"),
+			E.p("Otro párrafo con ", "\n      ",
+			E.a("enlaces", href="http://www.python.org"), "."),
+			E.p("caractéres reservados: &lt;spam&amp;egg&gt;."),
+			etree.XML("&lt;p&gt; Y XML .&lt;/p&gt;"),
+		)
+	)
+)
+
+print(etree.tounicode(page, pretty_print = True))
+</pre>
+
+
+<footer class="der">
+<a href="http://lxml.de/tutorial.html#the-e-factory" >
+E-factory</a>
+</footer>
+</section>
+
+
+
+
+
+<!-- Style -->
+
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+<style>
+  html { background-color: aliceblue; }
+  a { color: blue4; font-size:80%; text-decoration:none;} a:hover {text-decoration: underline;}
+  footer { position: absolute; bottom: 10px; right: 50px; }
+  strong {color: #FF0066}
+  body {
+      font-family: 'Oswald', arial, serif;
+      background-color: aliceblue;
+      color: black;
+      font-size: 2em;
+      background: aliceblue;
+  }
+
+  table {
+	  margin: auto 20px auto auto;
+	  float: left;
+  }
+
+  td {
+	  padding:5px 10px 5px 10px;
+  }
+
+  th {
+	background:rgb(248,231,248);
+  }
+
+
+  pre {font-size:80%;
+       width: 630px;
+       line-height:1.6em;
+       margin: auto auto auto 100px;
+	  }
+
+  /* Transition effect */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+      background: aliceblue;
+  }
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150% }
+
+  .chapter { background-color: paleturquoise;}
+  .chapter h1 {line-height: 600px; vertical-align: middle; margin: 0; text-align: center; display: block}
+
+  h1 {
+      margin: 50px 100px 0 100px;
+      font-size: 60px;
+      text-shadow: 0px -1px 0px #000;
+      text-align: left;
+  }
+  h2 {
+      color: rgb(96,0,0);
+      margin: 30px 0 20px 0;
+      font-size: 40px;
+      text-align: center;
+  }
+  ul {
+      margin-top: 20px;
+      font-size: 35px;
+      text-align: left;
+      /*border-left: 4px solid white;*/
+      padding-right: 40px;
+      min-width: 310px;
+      margin-left: 50px;
+      display: inline-block;
+      font-size: 95%;
+  }
+  q, p {
+      margin: 30px auto 0 auto;
+      width: 95%;//630px;
+  }
+  q:after {content: ""}
+  q:before {content: ""}
+  q {
+      display: block;
+      margin-top: 140px;
+  }
+  video {
+      position: absolute;
+      top: 210px;
+      width: 260px;
+      left: 445px;
+      box-shadow: 0 0 10px black;
+  }
+
+  .cen {
+      position: absolute;
+      top: 120px;
+      width: 620px;
+      height: 440px;
+      left: 130px;
+      box-shadow: 0 0 4px black;
+  }
+
+  li {
+    //list-style-type: none;
+    padding: 9px;
+  }
+
+</style>
+
+<!-- {{{{ *****************  DZSlides CORE 2.0b1 *************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- *********************************************************************** -->
+
+<!-- This block of code is not supposed to be edited, but if you want to change the behavior of the slides, feel free to hack it ;) -->
+
+<!-- Default Style -->
+
+<style>
+  * { margin: 0; padding: 0; }
+  details {display: none;}
+  body {
+    width: 900px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  html {
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto;}
+  body {display: none}
+  body.loaded {display: block}
+</style>
+
+<script>
+  var friendWindows = [];
+  var idx = 1;
+  var slides;
+
+  /* main() */
+
+  window.onload = function() {
+    slides = document.querySelectorAll("body > section");
+    onhashchange();
+    setSlide();
+    document.body.className = "loaded";
+    setupTouchEvents();
+    onresize();
+  }
+
+  /* Handle keys */
+
+  window.onkeydown = function(e) {
+    // Don't intercept keyboard shortcuts
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      return;
+    }
+    if ( e.keyCode == 37 // left arrow
+      || e.keyCode == 38 // up arrow
+      || e.keyCode == 33 // page up
+    ) {
+      e.preventDefault();
+      back();
+    }
+    if ( e.keyCode == 39 // right arrow
+      || e.keyCode == 40 // down arrow
+      || e.keyCode == 34 // page down
+    ) {
+      e.preventDefault();
+      forward();
+    }
+
+    if ( e.keyCode == 32) { // space
+        e.preventDefault();
+        toggleContent();
+    }
+  }
+
+  /* Touch Events */
+
+  function setupTouchEvents() {
+    var orgX, newX;
+    var tracking = false;
+
+    var body = document.body;
+    body.addEventListener("touchstart", start, false);
+    body.addEventListener("touchmove", move, false);
+
+    function start(e) {
+      e.preventDefault();
+      tracking = true;
+      orgX = e.changedTouches[0].pageX;
+    }
+
+    function move(e) {
+      if (!tracking) return;
+      newX = e.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  window.onresize = function() {
+    var sx = document.body.clientWidth / window.innerWidth;
+    var sy = document.body.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+    document.body.style.MozTransform = transform;
+    document.body.style.WebkitTransform = transform;
+    document.body.style.OTransform = transform;
+    document.body.style.msTransform = transform;
+    document.body.style.transform = transform;
+  }
+  function getDetails(idx) {
+    var s = document.querySelector("section:nth-of-type("+ idx +")");
+    var d = s.querySelector("details");
+    return d?d.innerHTML:"";
+  }
+  window.onmessage = function(e) {
+    msg = e.data;
+    win = e.source;
+    if (msg === "register") {
+      friendWindows.push(win);
+      win.postMessage(JSON.stringify({method: "registered", title: document.title, count: slides.length}), "*");
+      win.postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+      return;
+    }
+    if (msg === "back") back();
+    if (msg === "forward") forward();
+    if (msg === "toggleContent") toggleContent();
+    // setSlide(42)
+    var r = /setSlide\((\d+)\)/.exec(msg);
+    if (r) {
+        idx = r[1];
+        setSlide();
+    }
+  }
+
+  /* If a Video is present in this new slide, play it.
+     If a Video is present in the previous slide, stop it. */
+
+  function toggleContent() {
+    var s = document.querySelector("section[aria-selected]");
+    if (s) {
+        var video = s.querySelector("video");
+        if (video) {
+            if (video.ended || video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }
+  }
+
+  /* If the user change the slide number in the URL bar, jump
+     to this slide. */
+
+  window.onhashchange = function(e) {
+    var newidx = ~~window.location.hash.split("#")[1];
+    if (!newidx) newidx = 1;
+    if (newidx == idx) return;
+    idx = newidx;
+    setSlide();
+  }
+
+  /* Slide controls */
+
+  function back() {
+    if (idx == 1) return;
+    idx--;
+    setSlide();
+  }
+  function forward() {
+    if (idx >= slides.length) return;
+    idx++;
+    setSlide();
+  }
+  function setSlide() {
+    var old = document.querySelector("section[aria-selected]");
+    var next = document.querySelector("section:nth-of-type("+ idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.querySelector("video");
+      if (video) { video.pause(); }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.querySelector("video");
+      if (video) { video.play(); }
+    } else {
+      console.warn("No such slide: " + idx);
+      idx = 0;
+      for (var i = 0; i < slides.length; i++) {
+          if (slides[i].hasAttribute("aria-selected")) {
+              idx = i + 1;
+          }
+      }
+    }
+    window.location.hash = idx;
+    for (var i = 0; i < friendWindows.length; i++) {
+        friendWindows[i].postMessage(JSON.stringify({method: "newslide", details: getDetails(idx), idx: idx}), "*");
+    }
+  }
+</script>
